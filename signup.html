@@ -154,28 +154,30 @@
 </div>
 
 
-<!-- Firebase -->
 <script type="module">
 
-    import { initializeApp } from
-        "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    // Firebase App
+    import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
+    // Firebase Authentication
     import {
         getAuth,
         createUserWithEmailAndPassword,
         updateProfile
-    } from
-        "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
+    // Realtime Database
     import {
-        getFirestore,
-        doc,
-        setDoc
-    } from
-        "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+        getDatabase,
+        ref,
+        set
+    }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
 
-    // Firebase configuration
+    // Your Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
         authDomain: "planwise-a217c.firebaseapp.com",
@@ -190,38 +192,50 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
 
-    // Firebase Authentication
+    // Authentication
     const auth = getAuth(app);
 
-    // Firestore Database
-    const db = getFirestore(app);
+    // Realtime Database
+    const database = getDatabase(app);
 
 
-    // Get HTML elements
+    // HTML elements
     const signupBtn = document.getElementById("signupBtn");
     const message = document.getElementById("message");
 
 
     signupBtn.addEventListener("click", async () => {
 
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
+        const name =
+            document.getElementById("name").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
 
 
         // Check fields
         if (!name || !email || !password) {
-            message.textContent = "Please fill in all fields.";
+
+            message.textContent =
+                "Please fill in all fields.";
+
             message.style.color = "red";
+
             return;
         }
 
 
-        // Password check
+        // Check password
         if (password.length < 6) {
+
             message.textContent =
                 "Password must be at least 6 characters.";
+
             message.style.color = "red";
+
             return;
         }
 
@@ -243,19 +257,22 @@
             const user = userCredential.user;
 
 
-            // Add name to Firebase Authentication profile
+            // Save name to Authentication profile
             await updateProfile(user, {
                 displayName: name
             });
 
 
-            // Save additional user information in Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                name: name,
-                email: email,
-                uid: user.uid,
-                createdAt: new Date()
-            });
+            // Save user information to Realtime Database
+            await set(
+                ref(database, "users/" + user.uid),
+                {
+                    name: name,
+                    email: email,
+                    uid: user.uid,
+                    createdAt: new Date().toISOString()
+                }
+            );
 
 
             message.textContent =
@@ -266,7 +283,10 @@
 
             // Go to dashboard
             setTimeout(() => {
-                window.location.href = "dashboard.html";
+
+                window.location.href =
+                    "dashboard.html";
+
             }, 1000);
 
 
@@ -274,28 +294,41 @@
 
             console.error(error);
 
-            let errorMessage = "Something went wrong.";
+            let errorMessage =
+                "Something went wrong.";
 
-            if (error.code === "auth/email-already-in-use") {
+
+            if (error.code ===
+                "auth/email-already-in-use") {
+
                 errorMessage =
                     "This email is already registered.";
             }
 
-            else if (error.code === "auth/invalid-email") {
+            else if (error.code ===
+                "auth/invalid-email") {
+
                 errorMessage =
                     "Please enter a valid email address.";
             }
 
-            else if (error.code === "auth/weak-password") {
+            else if (error.code ===
+                "auth/weak-password") {
+
                 errorMessage =
                     "Password is too weak.";
             }
 
-            message.textContent = errorMessage;
+
+            message.textContent =
+                errorMessage;
+
             message.style.color = "red";
 
             signupBtn.disabled = false;
-            signupBtn.textContent = "Create Account";
+
+            signupBtn.textContent =
+                "Create Account";
         }
 
     });
