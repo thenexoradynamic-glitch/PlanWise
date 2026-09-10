@@ -18,8 +18,6 @@
             color: #333;
         }
 
-        /* NAVBAR */
-
         .navbar {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -44,12 +42,6 @@
             cursor: pointer;
         }
 
-        .logout-btn:hover {
-            background: #eeeeee;
-        }
-
-        /* MAIN */
-
         .container {
             width: 90%;
             max-width: 1200px;
@@ -60,7 +52,7 @@
             background: white;
             padding: 30px;
             border-radius: 18px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             margin-bottom: 30px;
         }
 
@@ -68,12 +60,6 @@
             margin-top: 0;
             color: #667eea;
         }
-
-        .welcome p {
-            color: #666;
-        }
-
-        /* FEATURE GRID */
 
         .features {
             display: grid;
@@ -85,22 +71,14 @@
             background: white;
             padding: 25px;
             border-radius: 18px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            transition: 0.2s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
         .icon {
             font-size: 35px;
-            margin-bottom: 10px;
         }
 
         .feature-card h2 {
-            margin: 10px 0;
-            color: #444;
             font-size: 20px;
         }
 
@@ -117,32 +95,19 @@
             color: white;
             text-decoration: none;
             border-radius: 8px;
-            font-weight: bold;
         }
-
-        .feature-btn:hover {
-            background: #5568d9;
-        }
-
-        /* USER INFO */
 
         .user-info {
             margin-top: 30px;
             background: white;
             padding: 25px;
             border-radius: 18px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
         .user-info h2 {
             color: #667eea;
         }
-
-        .user-info p {
-            margin: 8px 0;
-        }
-
-        /* FOOTER */
 
         footer {
             text-align: center;
@@ -154,359 +119,195 @@
 
 <body>
 
-    <!-- NAVBAR -->
+<nav class="navbar">
 
-    <nav class="navbar">
+    <div class="logo">
+        📘 PlanWise
+    </div>
 
-        <div class="logo">
-            📘 PlanWise
+    <button class="logout-btn" id="logoutBtn">
+        Logout
+    </button>
+
+</nav>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <h1>
+            Welcome, <span id="userName">Student</span>! 👋
+        </h1>
+
+        <p>
+            Plan your day, track your progress, and achieve your goals with PlanWise.
+        </p>
+
+    </section>
+
+
+    <section class="features">
+
+        <div class="feature-card">
+            <div class="icon">📅</div>
+            <h2>Daily Planner</h2>
+            <p>Organize your tasks and plan your day.</p>
+            <a href="#" class="feature-btn">Open</a>
         </div>
 
-        <button class="logout-btn" id="logoutBtn">
-            Logout
-        </button>
+        <div class="feature-card">
+            <div class="icon">📚</div>
+            <h2>Syllabus Tracker</h2>
+            <p>Track your subjects and syllabus progress.</p>
+            <a href="#" class="feature-btn">Open</a>
+        </div>
 
-    </nav>
+        <div class="feature-card">
+            <div class="icon">📝</div>
+            <h2>Smart Notes</h2>
+            <p>Create and organize your study notes.</p>
+            <a href="#" class="feature-btn">Open</a>
+        </div>
 
+        <div class="feature-card">
+            <div class="icon">🎯</div>
+            <h2>Day Tracker</h2>
+            <p>Track habits and study hours.</p>
+            <a href="#" class="feature-btn">Open</a>
+        </div>
 
-    <!-- MAIN CONTENT -->
+        <div class="feature-card">
+            <div class="icon">💰</div>
+            <h2>Budget Tracker</h2>
+            <p>Manage your student budget.</p>
+            <a href="#" class="feature-btn">Open</a>
+        </div>
 
-    <main class="container">
+        <div class="feature-card">
+            <div class="icon">📔</div>
+            <h2>Digital Journal</h2>
+            <p>Write and save your daily reflections.</p>
+            <a href="#" class="feature-btn">Open</a>
+        </div>
 
-        <!-- WELCOME -->
+        <div class="feature-card">
+            <div class="icon">👥</div>
+            <h2>Chat with Friends</h2>
+            <p>Connect with your friends.</p>
+            <a href="#" class="feature-btn">Open</a>
+        </div>
 
-        <section class="welcome">
+        <div class="feature-card">
+            <div class="icon">🎓</div>
+            <h2>Study Groups</h2>
+            <p>Learn together with other students.</p>
+            <a href="#" class="feature-btn">Open</a>
+        </div>
 
-            <h1>
-                Welcome, <span id="userName">Student</span>! 👋
-            </h1>
+    </section>
 
-            <p>
-                Plan your day, track your progress, and achieve your goals with PlanWise.
-            </p>
 
-        </section>
+    <section class="user-info">
 
+        <h2>👤 Account Information</h2>
 
-        <!-- FEATURES -->
+        <p>
+            <strong>Name:</strong>
+            <span id="displayName">Loading...</span>
+        </p>
 
-        <section class="features">
+        <p>
+            <strong>Email:</strong>
+            <span id="displayEmail">Loading...</span>
+        </p>
 
-            <!-- DAILY PLANNER -->
+    </section>
 
-            <div class="feature-card">
+</main>
 
-                <div class="icon">📅</div>
 
-                <h2>Daily Planner</h2>
+<footer>
+    © 2026 PlanWise. Plan better. Achieve more.
+</footer>
 
-                <p>
-                    Organize your tasks and plan what you need to accomplish today.
-                </p>
 
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
+<script type="module">
 
-            </div>
+    import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
+    import {
+        getAuth,
+        onAuthStateChanged,
+        signOut
+    }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-            <!-- SYLLABUS -->
 
-            <div class="feature-card">
+    const firebaseConfig = {
+        apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
+        authDomain: "planwise-a217c.firebaseapp.com",
+        projectId: "planwise-a217c",
+        storageBucket: "planwise-a217c.firebasestorage.app",
+        messagingSenderId: "308981851844",
+        appId: "1:308981851844:web:abafd57ff4bb8591758b91",
+        measurementId: "G-9E3C8MFL7Z"
+    };
 
-                <div class="icon">📚</div>
 
-                <h2>Syllabus Tracker</h2>
+    const app = initializeApp(firebaseConfig);
 
-                <p>
-                    Track your subjects, chapters, and syllabus completion.
-                </p>
+    const auth = getAuth(app);
 
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
 
-            </div>
+    const userName =
+        document.getElementById("userName");
 
+    const displayName =
+        document.getElementById("displayName");
 
-            <!-- SMART NOTES -->
+    const displayEmail =
+        document.getElementById("displayEmail");
 
-            <div class="feature-card">
+    const logoutBtn =
+        document.getElementById("logoutBtn");
 
-                <div class="icon">📝</div>
 
-                <h2>Smart Notes</h2>
+    onAuthStateChanged(auth, (user) => {
 
-                <p>
-                    Create and organize your important study notes.
-                </p>
+        if (user) {
 
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
+            console.log("User logged in:", user);
 
-            </div>
+            const name =
+                user.displayName || "Student";
 
+            userName.textContent = name;
 
-            <!-- DAY TRACKER -->
+            displayName.textContent = name;
 
-            <div class="feature-card">
+            displayEmail.textContent =
+                user.email || "No email";
 
-                <div class="icon">🎯</div>
+        } else {
 
-                <h2>Day Tracker</h2>
+            window.location.href = "login.html";
 
-                <p>
-                    Track habits, study hours, and your daily progress.
-                </p>
-
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
-
-            </div>
-
-
-            <!-- BUDGET -->
-
-            <div class="feature-card">
-
-                <div class="icon">💰</div>
-
-                <h2>Budget Tracker</h2>
-
-                <p>
-                    Keep track of your spending and manage your student budget.
-                </p>
-
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
-
-            </div>
-
-
-            <!-- JOURNAL -->
-
-            <div class="feature-card">
-
-                <div class="icon">📔</div>
-
-                <h2>Digital Journal</h2>
-
-                <p>
-                    Write down your thoughts, experiences, and daily reflections.
-                </p>
-
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
-
-            </div>
-
-
-            <!-- FRIENDS -->
-
-            <div class="feature-card">
-
-                <div class="icon">👥</div>
-
-                <h2>Chat with Friends</h2>
-
-                <p>
-                    Connect and communicate with your friends through PlanWise.
-                </p>
-
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
-
-            </div>
-
-
-            <!-- STUDY GROUPS -->
-
-            <div class="feature-card">
-
-                <div class="icon">🎓</div>
-
-                <h2>Study Groups</h2>
-
-                <p>
-                    Create or join study groups and learn together.
-                </p>
-
-                <a href="#" class="feature-btn">
-                    Open
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- USER INFORMATION -->
-
-        <section class="user-info">
-
-            <h2>👤 Account Information</h2>
-
-            <p>
-                <strong>Name:</strong>
-                <span id="displayName">Loading...</span>
-            </p>
-
-            <p>
-                <strong>Email:</strong>
-                <span id="displayEmail">Loading...</span>
-            </p>
-
-            <p>
-                <strong>User ID:</strong>
-                <span id="displayUid">Loading...</span>
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <!-- FOOTER -->
-
-    <footer>
-        © 2026 PlanWise. Plan better. Achieve more.
-    </footer>
-
-
-    <!-- FIREBASE -->
-
-    <script type="module">
-
-        // Firebase App
-        import {
-            initializeApp
         }
-        from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+    });
 
 
-        // Firebase Authentication
-        import {
-            getAuth,
-            onAuthStateChanged,
-            signOut
-        }
-        from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    logoutBtn.addEventListener("click", async () => {
 
+        await signOut(auth);
 
-        // Firebase configuration
+        window.location.href = "index.html";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
-            authDomain: "planwise-a217c.firebaseapp.com",
-            projectId: "planwise-a217c",
-            storageBucket: "planwise-a217c.firebasestorage.app",
-            messagingSenderId: "308981851844",
-            appId: "1:308981851844:web:abafd57ff4bb8591758b91",
-            measurementId: "G-9E3C8MFL7Z"
-        };
+    });
 
-
-        // Initialize Firebase
-
-        const app = initializeApp(firebaseConfig);
-
-        const auth = getAuth(app);
-
-
-        // HTML elements
-
-        const userName =
-            document.getElementById("userName");
-
-        const displayName =
-            document.getElementById("displayName");
-
-        const displayEmail =
-            document.getElementById("displayEmail");
-
-        const displayUid =
-            document.getElementById("displayUid");
-
-        const logoutBtn =
-            document.getElementById("logoutBtn");
-
-
-        // Check login status
-
-        onAuthStateChanged(auth, (user) => {
-
-            if (user) {
-
-                console.log("Logged in user:", user);
-
-
-                // Get name
-
-                const name =
-                    user.displayName || "Student";
-
-
-                // Show information
-
-                userName.textContent = name;
-
-                displayName.textContent = name;
-
-                displayEmail.textContent =
-                    user.email || "No email";
-
-                displayUid.textContent =
-                    user.uid;
-
-            }
-
-            else {
-
-                // User is not logged in
-
-                window.location.href =
-                    "login.html";
-
-            }
-
-        });
-
-
-        // Logout
-
-        logoutBtn.addEventListener("click", async () => {
-
-            try {
-
-                await signOut(auth);
-
-                window.location.href =
-                    "index.html";
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Logout error:",
-                    error
-                );
-
-                alert(
-                    "Unable to logout. Please try again."
-                );
-
-            }
-
-        });
-
-    </script>
+</script>
 
 </body>
 </html>
