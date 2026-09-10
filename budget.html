@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Budget Tracker - PlanWise</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-buttons a,
+        .nav-buttons button {
+            border: none;
+            text-decoration: none;
+            background: #4f46e5;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .nav-buttons a {
+            background: #eef0ff;
+            color: #4f46e5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .add-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .summary-box {
+            padding: 20px;
+            background: #f8f8ff;
+            border-radius: 10px;
+        }
+
+        .summary-box h3 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .amount {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .income {
+            color: #16a34a;
+        }
+
+        .expense {
+            color: #dc2626;
+        }
+
+        .balance {
+            color: #4f46e5;
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-name {
+            font-weight: bold;
+        }
+
+        .transaction-category {
+            color: #777;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .delete-btn {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 7px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #message {
+            margin-top: 15px;
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            .form-grid,
+            .summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        PlanWise
+    </div>
+
+    <div class="nav-buttons">
+        <a href="dashboard.html">Dashboard</a>
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>Budget Tracker 💰</h1>
+
+    <p class="subtitle">
+        Keep track of your income and expenses.
+    </p>
+
+
+    <div class="card">
+
+        <h2>Add Transaction</h2>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>
+                    Description
+                </label>
+
+                <input
+                    type="text"
+                    id="description"
+                    placeholder="e.g. School supplies"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Amount
+                </label>
+
+                <input
+                    type="number"
+                    id="amount"
+                    min="0"
+                    step="0.01"
+                    placeholder="e.g. 250"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Type
+                </label>
+
+                <select id="type">
+
+                    <option value="expense">
+                        Expense
+                    </option>
+
+                    <option value="income">
+                        Income
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Category
+                </label>
+
+                <input
+                    type="text"
+                    id="category"
+                    placeholder="e.g. Education"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button class="add-btn" id="addBtn">
+            Add Transaction
+        </button>
+
+        <div id="message"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Summary</h2>
+
+        <br>
+
+        <div class="summary">
+
+            <div class="summary-box">
+
+                <h3>Income</h3>
+
+                <div
+                    class="amount income"
+                    id="income"
+                >
+                    ₹0
+                </div>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>Expenses</h3>
+
+                <div
+                    class="amount expense"
+                    id="expenses"
+                >
+                    ₹0
+                </div>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>Balance</h3>
+
+                <div
+                    class="amount balance"
+                    id="balance"
+                >
+                    ₹0
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Transactions</h2>
+
+        <br>
+
+        <div id="transactionList">
+            Loading...
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    onValue,
+    remove
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
+
+    authDomain: "planwise-a217c.firebaseapp.com",
+
+    projectId: "planwise-a217c",
+
+    storageBucket: "planwise-a217c.firebasestorage.app",
+
+    messagingSenderId: "308981851844",
+
+    appId: "1:308981851844:web:abafd57ff4bb8591758b91",
+
+    measurementId: "G-9E3C8MFL7Z",
+
+    databaseURL:
+        "https://planwise-a217c-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+let currentUser = null;
+
+
+document.getElementById("addBtn").addEventListener(
+    "click",
+    async () => {
+
+        if (!currentUser) {
+            return;
+        }
+
+        const description =
+            document.getElementById("description").value.trim();
+
+        const amount =
+            Number(document.getElementById("amount").value);
+
+        const type =
+            document.getElementById("type").value;
+
+        const category =
+            document.getElementById("category").value.trim();
+
+
+        if (!description || !amount || amount <= 0) {
+
+            showMessage(
+                "Please enter a description and valid amount.",
+                false
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            await push(
+                ref(
+                    db,
+                    `users/${currentUser.uid}/budget`
+                ),
+                {
+                    description: description,
+                    amount: amount,
+                    type: type,
+                    category: category || "Other",
+                    createdAt: Date.now()
+                }
+            );
+
+
+            document.getElementById("description").value = "";
+
+            document.getElementById("amount").value = "";
+
+            document.getElementById("category").value = "";
+
+            showMessage(
+                "Transaction added!",
+                true
+            );
+
+        } catch (error) {
+
+            showMessage(
+                error.message,
+                false
+            );
+
+        }
+
+    }
+);
+
+
+function loadBudget(uid) {
+
+    const budgetRef =
+        ref(
+            db,
+            `users/${uid}/budget`
+        );
+
+
+    onValue(
+        budgetRef,
+        snapshot => {
+
+            const list =
+                document.getElementById("transactionList");
+
+            list.innerHTML = "";
+
+            let totalIncome = 0;
+
+            let totalExpenses = 0;
+
+
+            if (!snapshot.exists()) {
+
+                list.textContent =
+                    "No transactions yet.";
+
+                updateSummary(
+                    0,
+                    0
+                );
+
+                return;
+
+            }
+
+
+            const transactions = [];
+
+
+            snapshot.forEach(child => {
+
+                transactions.push({
+                    id: child.key,
+                    ...child.val()
+                });
+
+            });
+
+
+            transactions.sort(
+                (a, b) =>
+                    (b.createdAt || 0) -
+                    (a.createdAt || 0)
+            );
+
+
+            transactions.forEach(transaction => {
+
+                if (transaction.type === "income") {
+
+                    totalIncome +=
+                        Number(transaction.amount);
+
+                } else {
+
+                    totalExpenses +=
+                        Number(transaction.amount);
+
+                }
+
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "transaction";
+
+
+                const info =
+                    document.createElement("div");
+
+
+                const name =
+                    document.createElement("div");
+
+                name.className =
+                    "transaction-name";
+
+                name.textContent =
+                    transaction.description;
+
+
+                const category =
+                    document.createElement("div");
+
+                category.className =
+                    "transaction-category";
+
+                category.textContent =
+                    transaction.category;
+
+
+                info.appendChild(name);
+
+                info.appendChild(category);
+
+
+                const right =
+                    document.createElement("div");
+
+
+                const amount =
+                    document.createElement("span");
+
+                amount.textContent =
+                    (transaction.type === "income" ? "+" : "-") +
+                    "₹" +
+                    Number(transaction.amount).toFixed(2);
+
+                amount.className =
+                    transaction.type === "income"
+                        ? "income"
+                        : "expense";
+
+
+                const deleteBtn =
+                    document.createElement("button");
+
+                deleteBtn.className =
+                    "delete-btn";
+
+                deleteBtn.textContent =
+                    "Delete";
+
+
+                deleteBtn.addEventListener(
+                    "click",
+                    async () => {
+
+                        if (
+                            confirm(
+                                "Delete this transaction?"
+                            )
+                        ) {
+
+                            await remove(
+                                ref(
+                                    db,
+                                    `users/${currentUser.uid}/budget/${transaction.id}`
+                                )
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                right.appendChild(amount);
+
+                right.appendChild(deleteBtn);
+
+
+                row.appendChild(info);
+
+                row.appendChild(right);
+
+
+                list.appendChild(row);
+
+            });
+
+
+            updateSummary(
+                totalIncome,
+                totalExpenses
+            );
+
+        }
+    );
+
+}
+
+
+function updateSummary(income, expenses) {
+
+    document.getElementById("income").textContent =
+        "₹" + income.toFixed(2);
+
+    document.getElementById("expenses").textContent =
+        "₹" + expenses.toFixed(2);
+
+    document.getElementById("balance").textContent =
+        "₹" + (income - expenses).toFixed(2);
+
+}
+
+
+function showMessage(text, success) {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = text;
+
+    message.style.color =
+        success
+            ? "#16a34a"
+            : "#dc2626";
+
+}
+
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+        currentUser = user;
+
+        loadBudget(user.uid);
+
+    }
+);
+
+
+document.getElementById("logoutBtn").addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+        window.location.href =
+            "index.html";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
