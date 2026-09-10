@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Digital Journal - PlanWise</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-buttons a,
+        .nav-buttons button {
+            border: none;
+            text-decoration: none;
+            background: #4f46e5;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .nav-buttons a {
+            background: #eef0ff;
+            color: #4f46e5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #journalList {
+            display: grid;
+            gap: 18px;
+        }
+
+        .entry {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .entry-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .entry-date {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .entry-content {
+            white-space: pre-wrap;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .delete-btn {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 15px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        PlanWise
+    </div>
+
+    <div class="nav-buttons">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <button id="logoutBtn">
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>Digital Journal 📖</h1>
+
+    <p class="subtitle">
+        Write about your day, thoughts, goals, and experiences.
+    </p>
+
+
+    <div class="card">
+
+        <h2>Today's Journal</h2>
+
+        <br>
+
+        <div class="field">
+
+            <label for="title">
+                Title
+            </label>
+
+            <input
+                id="title"
+                type="text"
+                placeholder="How was your day?"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="content">
+                Journal Entry
+            </label>
+
+            <textarea
+                id="content"
+                placeholder="Write your thoughts here..."
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="save-btn"
+            id="saveBtn"
+        >
+            Save Entry
+        </button>
+
+        <div id="message"></div>
+
+    </div>
+
+
+    <h2>Previous Entries</h2>
+
+    <br>
+
+    <div id="journalList">
+        Loading...
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    onValue,
+    remove
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
+
+    authDomain: "planwise-a217c.firebaseapp.com",
+
+    projectId: "planwise-a217c",
+
+    storageBucket: "planwise-a217c.firebasestorage.app",
+
+    messagingSenderId: "308981851844",
+
+    appId: "1:308981851844:web:abafd57ff4bb8591758b91",
+
+    measurementId: "G-9E3C8MFL7Z",
+
+    databaseURL:
+        "https://planwise-a217c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+let currentUser = null;
+
+
+document.getElementById("saveBtn").addEventListener(
+    "click",
+    async () => {
+
+        if (!currentUser) {
+            return;
+        }
+
+
+        const title =
+            document.getElementById("title").value.trim();
+
+        const content =
+            document.getElementById("content").value.trim();
+
+
+        if (!title || !content) {
+
+            showMessage(
+                "Please fill in both fields.",
+                false
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            await push(
+                ref(
+                    db,
+                    `users/${currentUser.uid}/journal`
+                ),
+                {
+                    title: title,
+                    content: content,
+                    createdAt: Date.now()
+                }
+            );
+
+
+            document.getElementById("title").value = "";
+
+            document.getElementById("content").value = "";
+
+
+            showMessage(
+                "Journal entry saved!",
+                true
+            );
+
+        } catch (error) {
+
+            showMessage(
+                error.message,
+                false
+            );
+
+        }
+
+    }
+);
+
+
+function loadEntries(uid) {
+
+    const journalRef =
+        ref(
+            db,
+            `users/${uid}/journal`
+        );
+
+
+    onValue(
+        journalRef,
+        snapshot => {
+
+            const list =
+                document.getElementById("journalList");
+
+            list.innerHTML = "";
+
+
+            if (!snapshot.exists()) {
+
+                list.textContent =
+                    "No journal entries yet.";
+
+                return;
+
+            }
+
+
+            const entries = [];
+
+
+            snapshot.forEach(child => {
+
+                entries.push({
+                    id: child.key,
+                    ...child.val()
+                });
+
+            });
+
+
+            entries.sort(
+                (a,b) =>
+                    (b.createdAt || 0) -
+                    (a.createdAt || 0)
+            );
+
+
+            entries.forEach(entry => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "entry";
+
+
+                const title =
+                    document.createElement("div");
+
+                title.className =
+                    "entry-title";
+
+                title.textContent =
+                    entry.title;
+
+
+                const date =
+                    document.createElement("div");
+
+                date.className =
+                    "entry-date";
+
+                date.textContent =
+                    new Date(
+                        entry.createdAt
+                    ).toLocaleString("en-IN");
+
+
+                const content =
+                    document.createElement("div");
+
+                content.className =
+                    "entry-content";
+
+                content.textContent =
+                    entry.content;
+
+
+                const deleteBtn =
+                    document.createElement("button");
+
+                deleteBtn.className =
+                    "delete-btn";
+
+                deleteBtn.textContent =
+                    "Delete";
+
+
+                deleteBtn.addEventListener(
+                    "click",
+                    async () => {
+
+                        if (
+                            confirm(
+                                "Delete this journal entry?"
+                            )
+                        ) {
+
+                            await remove(
+                                ref(
+                                    db,
+                                    `users/${currentUser.uid}/journal/${entry.id}`
+                                )
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                card.appendChild(title);
+
+                card.appendChild(date);
+
+                card.appendChild(content);
+
+                card.appendChild(deleteBtn);
+
+                list.appendChild(card);
+
+            });
+
+        }
+    );
+
+}
+
+
+function showMessage(text, success) {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = text;
+
+    message.style.color =
+        success
+            ? "#16a34a"
+            : "#dc2626";
+
+}
+
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+        currentUser = user;
+
+        loadEntries(user.uid);
+
+    }
+);
+
+
+document.getElementById("logoutBtn").addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+        window.location.href =
+            "index.html";
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
