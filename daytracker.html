@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Day Tracker - PlanWise</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-buttons a,
+        .nav-buttons button {
+            text-decoration: none;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .nav-buttons a {
+            background: #eef0ff;
+            color: #4f46e5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .save-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .habits {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .habit {
+            border: 1px solid #eee;
+            padding: 18px;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .habit label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .habit input {
+            width: auto;
+        }
+
+        .hours {
+            font-size: 35px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        #message {
+            margin-top: 15px;
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .habits {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        PlanWise
+    </div>
+
+    <div class="nav-buttons">
+        <a href="dashboard.html">Dashboard</a>
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <h1>Day Tracker 🎯</h1>
+
+    <p class="subtitle">
+        Track your daily habits and study hours.
+    </p>
+
+    <div class="card">
+
+        <h2>Today's Progress</h2>
+
+        <div class="habits">
+
+            <div class="habit">
+                <label>
+                    <input type="checkbox" id="water">
+                    Drink enough water
+                </label>
+            </div>
+
+            <div class="habit">
+                <label>
+                    <input type="checkbox" id="exercise">
+                    Exercise
+                </label>
+            </div>
+
+            <div class="habit">
+                <label>
+                    <input type="checkbox" id="reading">
+                    Reading
+                </label>
+            </div>
+
+            <div class="habit">
+                <label>
+                    <input type="checkbox" id="sleep">
+                    Good sleep
+                </label>
+            </div>
+
+            <div class="habit">
+                <label>
+                    <input type="checkbox" id="revision">
+                    Revision
+                </label>
+            </div>
+
+            <div class="habit">
+                <label>
+                    <input type="checkbox" id="screen">
+                    Limited screen time
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Study Hours 📚</h2>
+
+        <div class="field">
+
+            <label for="studyHours">
+                Hours studied today
+            </label>
+
+            <input
+                type="number"
+                id="studyHours"
+                min="0"
+                max="24"
+                step="0.5"
+                placeholder="e.g. 3.5"
+            >
+
+        </div>
+
+        <button class="save-btn" id="saveBtn">
+            Save Today's Progress
+        </button>
+
+        <div id="message"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Today's Study Time</h2>
+
+        <div class="hours" id="displayHours">
+            0 hours
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
+
+    authDomain: "planwise-a217c.firebaseapp.com",
+
+    projectId: "planwise-a217c",
+
+    storageBucket: "planwise-a217c.firebasestorage.app",
+
+    messagingSenderId: "308981851844",
+
+    appId: "1:308981851844:web:abafd57ff4bb8591758b91",
+
+    measurementId: "G-9E3C8MFL7Z",
+
+    databaseURL:
+        "https://planwise-a217c-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+
+let currentUser = null;
+
+
+const habitIds = [
+    "water",
+    "exercise",
+    "reading",
+    "sleep",
+    "revision",
+    "screen"
+];
+
+
+function getToday() {
+
+    const date = new Date();
+
+    return date.getFullYear() +
+        "-" +
+        String(date.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(date.getDate()).padStart(2, "0");
+
+}
+
+
+function loadTracker(uid) {
+
+    const today = getToday();
+
+    const trackerRef =
+        ref(
+            db,
+            `users/${uid}/dayTracker/${today}`
+        );
+
+    onValue(
+        trackerRef,
+        snapshot => {
+
+            if (!snapshot.exists()) {
+                return;
+            }
+
+            const data = snapshot.val();
+
+            habitIds.forEach(id => {
+
+                document.getElementById(id).checked =
+                    data.habits?.[id] || false;
+
+            });
+
+            document.getElementById("studyHours").value =
+                data.studyHours || "";
+
+            document.getElementById("displayHours").textContent =
+                (data.studyHours || 0) + " hours";
+
+        }
+    );
+
+}
+
+
+document.getElementById("saveBtn").addEventListener(
+    "click",
+    async () => {
+
+        if (!currentUser) {
+            return;
+        }
+
+        const today = getToday();
+
+        const habits = {};
+
+        habitIds.forEach(id => {
+
+            habits[id] =
+                document.getElementById(id).checked;
+
+        });
+
+        const studyHours =
+            Number(
+                document.getElementById("studyHours").value
+            ) || 0;
+
+
+        try {
+
+            await set(
+                ref(
+                    db,
+                    `users/${currentUser.uid}/dayTracker/${today}`
+                ),
+                {
+                    date: today,
+                    habits: habits,
+                    studyHours: studyHours,
+                    updatedAt: Date.now()
+                }
+            );
+
+
+            document.getElementById("displayHours").textContent =
+                studyHours + " hours";
+
+            document.getElementById("message").textContent =
+                "Today's progress saved!";
+
+            document.getElementById("message").style.color =
+                "#16a34a";
+
+        } catch (error) {
+
+            document.getElementById("message").textContent =
+                error.message;
+
+            document.getElementById("message").style.color =
+                "#dc2626";
+
+        }
+
+    }
+);
+
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+        currentUser = user;
+
+        loadTracker(user.uid);
+
+    }
+);
+
+
+document.getElementById("logoutBtn").addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+        window.location.href =
+            "index.html";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
