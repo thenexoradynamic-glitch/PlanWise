@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>PlanWise - Sign Up</title>
 
     <style>
@@ -26,13 +27,12 @@
             max-width: 420px;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         h1 {
             text-align: center;
             color: #667eea;
-            margin-bottom: 10px;
         }
 
         .subtitle {
@@ -46,7 +46,6 @@
             margin-top: 15px;
             margin-bottom: 7px;
             font-weight: bold;
-            color: #333;
         }
 
         input {
@@ -55,11 +54,6 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             font-size: 15px;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
         }
 
         button {
@@ -75,13 +69,8 @@
             cursor: pointer;
         }
 
-        button:hover {
-            background: #5568d9;
-        }
-
         button:disabled {
             background: #aaa;
-            cursor: not-allowed;
         }
 
         #message {
@@ -90,21 +79,16 @@
             font-weight: bold;
         }
 
-        .login-link {
+        .login-link,
+        .back-link {
             text-align: center;
             margin-top: 20px;
         }
 
-        .login-link a,
-        .back-link a {
+        a {
             color: #667eea;
             text-decoration: none;
             font-weight: bold;
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 15px;
         }
     </style>
 </head>
@@ -118,25 +102,13 @@
     <p class="subtitle">Create your account</p>
 
     <label for="name">Name</label>
-    <input
-        type="text"
-        id="name"
-        placeholder="Enter your name"
-    >
+    <input type="text" id="name" placeholder="Enter your name">
 
     <label for="email">Email</label>
-    <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-    >
+    <input type="email" id="email" placeholder="Enter your email">
 
     <label for="password">Password</label>
-    <input
-        type="password"
-        id="password"
-        placeholder="Create a password"
-    >
+    <input type="password" id="password" placeholder="Create a password">
 
     <button id="signupBtn">Create Account</button>
 
@@ -156,11 +128,9 @@
 
 <script type="module">
 
-    // Firebase App
     import { initializeApp }
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-    // Firebase Authentication
     import {
         getAuth,
         createUserWithEmailAndPassword,
@@ -168,16 +138,7 @@
     }
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-    // Realtime Database
-    import {
-        getDatabase,
-        ref,
-        set
-    }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
-
-    // Your Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
         authDomain: "planwise-a217c.firebaseapp.com",
@@ -189,19 +150,16 @@
     };
 
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
 
-    // Authentication
     const auth = getAuth(app);
 
-    // Realtime Database
-    const database = getDatabase(app);
 
+    const signupBtn =
+        document.getElementById("signupBtn");
 
-    // HTML elements
-    const signupBtn = document.getElementById("signupBtn");
-    const message = document.getElementById("message");
+    const message =
+        document.getElementById("message");
 
 
     signupBtn.addEventListener("click", async () => {
@@ -216,7 +174,6 @@
             document.getElementById("password").value;
 
 
-        // Check fields
         if (!name || !email || !password) {
 
             message.textContent =
@@ -228,7 +185,6 @@
         }
 
 
-        // Check password
         if (password.length < 6) {
 
             message.textContent =
@@ -241,12 +197,13 @@
 
 
         signupBtn.disabled = true;
-        signupBtn.textContent = "Creating Account...";
+
+        signupBtn.textContent =
+            "Creating Account...";
 
 
         try {
 
-            // Create Firebase Authentication account
             const userCredential =
                 await createUserWithEmailAndPassword(
                     auth,
@@ -254,25 +211,14 @@
                     password
                 );
 
-            const user = userCredential.user;
+
+            const user =
+                userCredential.user;
 
 
-            // Save name to Authentication profile
             await updateProfile(user, {
                 displayName: name
             });
-
-
-            // Save user information to Realtime Database
-            await set(
-                ref(database, "users/" + user.uid),
-                {
-                    name: name,
-                    email: email,
-                    uid: user.uid,
-                    createdAt: new Date().toISOString()
-                }
-            );
 
 
             message.textContent =
@@ -281,7 +227,6 @@
             message.style.color = "green";
 
 
-            // Go to dashboard
             setTimeout(() => {
 
                 window.location.href =
@@ -294,34 +239,8 @@
 
             console.error(error);
 
-            let errorMessage =
-                "Something went wrong.";
-
-
-            if (error.code ===
-                "auth/email-already-in-use") {
-
-                errorMessage =
-                    "This email is already registered.";
-            }
-
-            else if (error.code ===
-                "auth/invalid-email") {
-
-                errorMessage =
-                    "Please enter a valid email address.";
-            }
-
-            else if (error.code ===
-                "auth/weak-password") {
-
-                errorMessage =
-                    "Password is too weak.";
-            }
-
-
             message.textContent =
-                errorMessage;
+                error.message;
 
             message.style.color = "red";
 
