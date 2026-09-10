@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Syllabus Tracker - PlanWise</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-buttons a,
+        .nav-buttons button {
+            text-decoration: none;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-buttons a {
+            background: #eef0ff;
+            color: #4f46e5;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #666;
+        }
+
+        .add-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .add-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .field input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .add-btn {
+            height: 44px;
+            padding: 12px 20px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .add-btn:hover {
+            background: #4338ca;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .subjects-section h2 {
+            margin-bottom: 15px;
+        }
+
+        #subjectsList {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .subject-card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .subject-name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .subject-progress {
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        .progress-background {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4f46e5;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .topic {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fc;
+            border-radius: 8px;
+        }
+
+        .topic input {
+            width: 19px;
+            height: 19px;
+            cursor: pointer;
+        }
+
+        .topic-name {
+            flex: 1;
+        }
+
+        .topic.completed .topic-name {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .delete-topic {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 6px 9px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .delete-subject {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 8px 11px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            color: #777;
+        }
+
+        .add-topic {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .add-topic input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .add-topic button {
+            padding: 10px 15px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            .form {
+                grid-template-columns: 1fr;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .subject-header {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+            PlanWise
+        </div>
+
+        <div class="nav-buttons">
+            <a href="dashboard.html">Dashboard</a>
+            <button id="logoutBtn">Logout</button>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="heading">
+
+            <h1>Syllabus Tracker 📚</h1>
+
+            <p>
+                Track your subjects, topics, and study progress.
+            </p>
+
+        </div>
+
+
+        <!-- Add Subject -->
+
+        <div class="add-box">
+
+            <h2>Add a Subject</h2>
+
+            <div class="form">
+
+                <div class="field">
+
+                    <label for="subjectInput">
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subjectInput"
+                        placeholder="e.g. Mathematics"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="topicInput">
+                        First Topic
+                    </label>
+
+                    <input
+                        type="text"
+                        id="topicInput"
+                        placeholder="e.g. Number Systems"
+                    >
+
+                </div>
+
+
+                <button
+                    class="add-btn"
+                    id="addSubjectBtn"
+                >
+                    Add Subject
+                </button>
+
+            </div>
+
+            <div id="message"></div>
+
+        </div>
+
+
+        <!-- Subjects -->
+
+        <div class="subjects-section">
+
+            <h2>My Syllabus</h2>
+
+            <div id="subjectsList">
+
+                <div class="empty">
+                    Loading syllabus...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+        import {
+            getDatabase,
+            ref,
+            push,
+            onValue,
+            update,
+            remove
+        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+        // Firebase configuration
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
+
+            authDomain:
+                "planwise-a217c.firebaseapp.com",
+
+            projectId:
+                "planwise-a217c",
+
+            storageBucket:
+                "planwise-a217c.firebasestorage.app",
+
+            messagingSenderId:
+                "308981851844",
+
+            appId:
+                "1:308981851844:web:abafd57ff4bb8591758b91",
+
+            measurementId:
+                "G-9E3C8MFL7Z",
+
+            databaseURL:
+                "https://planwise-a217c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+        };
+
+
+        // Initialize Firebase
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getDatabase(app);
+
+
+        // Elements
+
+        const subjectInput =
+            document.getElementById("subjectInput");
+
+        const topicInput =
+            document.getElementById("topicInput");
+
+        const addSubjectBtn =
+            document.getElementById("addSubjectBtn");
+
+        const subjectsList =
+            document.getElementById("subjectsList");
+
+        const message =
+            document.getElementById("message");
+
+        const logoutBtn =
+            document.getElementById("logoutBtn");
+
+
+        let currentUser = null;
+
+
+        // Check login
+
+        onAuthStateChanged(auth, (user) => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+            currentUser = user;
+
+            loadSubjects(user.uid);
+
+        });
+
+
+        // Add subject
+
+        addSubjectBtn.addEventListener(
+            "click",
+            async () => {
+
+                if (!currentUser) {
+                    return;
+                }
+
+
+                const subject =
+                    subjectInput.value.trim();
+
+                const firstTopic =
+                    topicInput.value.trim();
+
+
+                if (subject === "") {
+
+                    showMessage(
+                        "Please enter a subject.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                if (firstTopic === "") {
+
+                    showMessage(
+                        "Please enter the first topic.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    addSubjectBtn.disabled = true;
+
+                    addSubjectBtn.textContent =
+                        "Adding...";
+
+
+                    const subjectsRef =
+                        ref(
+                            db,
+                            `users/${currentUser.uid}/subjects`
+                        );
+
+
+                    const newSubject =
+                        await push(
+                            subjectsRef,
+                            {
+                                name: subject
+                            }
+                        );
+
+
+                    const topicsRef =
+                        ref(
+                            db,
+                            `users/${currentUser.uid}/subjects/${newSubject.key}/topics`
+                        );
+
+
+                    await push(
+                        topicsRef,
+                        {
+                            name: firstTopic,
+                            completed: false
+                        }
+                    );
+
+
+                    subjectInput.value = "";
+
+                    topicInput.value = "";
+
+
+                    showMessage(
+                        "Subject added successfully!",
+                        true
+                    );
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    showMessage(
+                        "Could not add subject: " +
+                        error.message,
+                        false
+                    );
+
+                }
+
+
+                addSubjectBtn.disabled = false;
+
+                addSubjectBtn.textContent =
+                    "Add Subject";
+
+            }
+        );
+
+
+        // Load subjects
+
+        function loadSubjects(uid) {
+
+            const subjectsRef =
+                ref(
+                    db,
+                    `users/${uid}/subjects`
+                );
+
+
+            onValue(
+                subjectsRef,
+                (snapshot) => {
+
+                    subjectsList.innerHTML = "";
+
+
+                    if (!snapshot.exists()) {
+
+                        subjectsList.innerHTML = `
+                            <div class="empty">
+                                No subjects yet. Add your first subject! 📚
+                            </div>
+                        `;
+
+                        return;
+
+                    }
+
+
+                    snapshot.forEach(
+                        (subjectSnapshot) => {
+
+                            createSubjectCard(
+                                subjectSnapshot.key,
+                                subjectSnapshot.val()
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+
+        // Create subject card
+
+        function createSubjectCard(
+            subjectId,
+            subject
+        ) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "subject-card";
+
+
+            const header =
+                document.createElement("div");
+
+            header.className =
+                "subject-header";
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "subject-name";
+
+            name.textContent =
+                subject.name;
+
+
+            const progress =
+                document.createElement("div");
+
+            progress.className =
+                "subject-progress";
+
+            progress.textContent =
+                "0%";
+
+
+            const deleteSubject =
+                document.createElement("button");
+
+            deleteSubject.className =
+                "delete-subject";
+
+            deleteSubject.textContent =
+                "Delete Subject";
+
+
+            deleteSubject.addEventListener(
+                "click",
+                async () => {
+
+                    if (
+                        !confirm(
+                            "Delete this subject and all its topics?"
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    const subjectRef =
+                        ref(
+                            db,
+                            `users/${currentUser.uid}/subjects/${subjectId}`
+                        );
+
+
+                    await remove(subjectRef);
+
+                }
+            );
+
+
+            header.appendChild(name);
+
+            header.appendChild(progress);
+
+            header.appendChild(deleteSubject);
+
+
+            const progressBackground =
+                document.createElement("div");
+
+            progressBackground.className =
+                "progress-background";
+
+
+            const progressBar =
+                document.createElement("div");
+
+            progressBar.className =
+                "progress-bar";
+
+            progressBar.style.width =
+                "0%";
+
+
+            progressBackground.appendChild(
+                progressBar
+            );
+
+
+            const topicList =
+                document.createElement("div");
+
+            topicList.className =
+                "topic-list";
+
+
+            const topics =
+                subject.topics || {};
+
+            const topicArray =
+                Object.entries(topics);
+
+
+            updateProgress();
+
+
+            topicArray.forEach(
+                ([topicId, topic]) => {
+
+                    createTopic(
+                        topicList,
+                        subjectId,
+                        topicId,
+                        topic,
+                        progress,
+                        progressBar,
+                        topics
+                    );
+
+                }
+            );
+
+
+            const addTopicDiv =
+                document.createElement("div");
+
+            addTopicDiv.className =
+                "add-topic";
+
+
+            const newTopicInput =
+                document.createElement("input");
+
+            newTopicInput.type =
+                "text";
+
+            newTopicInput.placeholder =
+                "Add another topic";
+
+
+            const addTopicBtn =
+                document.createElement("button");
+
+            addTopicBtn.textContent =
+                "Add Topic";
+
+
+            addTopicBtn.addEventListener(
+                "click",
+                async () => {
+
+                    const topicName =
+                        newTopicInput.value.trim();
+
+
+                    if (topicName === "") {
+                        return;
+                    }
+
+
+                    const topicsRef =
+                        ref(
+                            db,
+                            `users/${currentUser.uid}/subjects/${subjectId}/topics`
+                        );
+
+
+                    await push(
+                        topicsRef,
+                        {
+                            name: topicName,
+                            completed: false
+                        }
+                    );
+
+
+                    newTopicInput.value = "";
+
+                }
+            );
+
+
+            addTopicDiv.appendChild(
+                newTopicInput
+            );
+
+            addTopicDiv.appendChild(
+                addTopicBtn
+            );
+
+
+            card.appendChild(header);
+
+            card.appendChild(
+                progressBackground
+            );
+
+            card.appendChild(topicList);
+
+            card.appendChild(addTopicDiv);
+
+
+            subjectsList.appendChild(card);
+
+
+            function updateProgress() {
+
+                const allTopics =
+                    Object.values(
+                        subject.topics || {}
+                    );
+
+
+                if (allTopics.length === 0) {
+
+                    progress.textContent =
+                        "0%";
+
+                    progressBar.style.width =
+                        "0%";
+
+                    return;
+
+                }
+
+
+                const completed =
+                    allTopics.filter(
+                        topic =>
+                            topic.completed === true
+                    ).length;
+
+
+                const percentage =
+                    Math.round(
+                        (completed /
+                            allTopics.length) *
+                        100
+                    );
+
+
+                progress.textContent =
+                    percentage + "%";
+
+                progressBar.style.width =
+                    percentage + "%";
+
+            }
+
+        }
+
+
+        // Create topic
+
+        function createTopic(
+            topicList,
+            subjectId,
+            topicId,
+            topic,
+            progress,
+            progressBar,
+            topics
+        ) {
+
+            const topicDiv =
+                document.createElement("div");
+
+            topicDiv.className =
+                "topic";
+
+
+            if (topic.completed) {
+
+                topicDiv.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            const checkbox =
+                document.createElement("input");
+
+            checkbox.type =
+                "checkbox";
+
+            checkbox.checked =
+                topic.completed || false;
+
+
+            checkbox.addEventListener(
+                "change",
+                async () => {
+
+                    const topicRef =
+                        ref(
+                            db,
+                            `users/${currentUser.uid}/subjects/${subjectId}/topics/${topicId}`
+                        );
+
+
+                    await update(
+                        topicRef,
+                        {
+                            completed:
+                                checkbox.checked
+                        }
+                    );
+
+                }
+            );
+
+
+            const topicName =
+                document.createElement("div");
+
+            topicName.className =
+                "topic-name";
+
+            topicName.textContent =
+                topic.name;
+
+
+            const deleteBtn =
+                document.createElement("button");
+
+            deleteBtn.className =
+                "delete-topic";
+
+            deleteBtn.textContent =
+                "Delete";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                async () => {
+
+                    const topicRef =
+                        ref(
+                            db,
+                            `users/${currentUser.uid}/subjects/${subjectId}/topics/${topicId}`
+                        );
+
+
+                    await remove(topicRef);
+
+                }
+            );
+
+
+            topicDiv.appendChild(
+                checkbox
+            );
+
+            topicDiv.appendChild(
+                topicName
+            );
+
+            topicDiv.appendChild(
+                deleteBtn
+            );
+
+
+            topicList.appendChild(
+                topicDiv
+            );
+
+        }
+
+
+        // Message
+
+        function showMessage(
+            text,
+            success
+        ) {
+
+            message.textContent =
+                text;
+
+            message.style.color =
+                success
+                    ? "#16a34a"
+                    : "#dc2626";
+
+
+            setTimeout(
+                () => {
+                    message.textContent = "";
+                },
+                2500
+            );
+
+        }
+
+
+        // Logout
+
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                        "index.html";
+
+                } catch (error) {
+
+                    console.error(error);
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
