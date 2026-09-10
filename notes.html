@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Notes - PlanWise</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-buttons a,
+        .nav-buttons button {
+            text-decoration: none;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-buttons a {
+            background: #eef0ff;
+            color: #4f46e5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #666;
+        }
+
+        .notes-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .notes-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin-bottom: 15px;
+        }
+
+        .field label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        .field textarea {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            padding: 12px 20px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .save-btn:hover {
+            background: #4338ca;
+        }
+
+        .cancel-btn {
+            padding: 12px 20px;
+            background: #eef0ff;
+            color: #4f46e5;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-left: 8px;
+            display: none;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .notes-section h2 {
+            margin-bottom: 15px;
+        }
+
+        #notesList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .note-card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .note-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .note-date {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .note-content {
+            color: #555;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin-bottom: 18px;
+        }
+
+        .note-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn {
+            border: none;
+            background: #eef0ff;
+            color: #4f46e5;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            color: #777;
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            .nav-buttons a,
+            .nav-buttons button {
+                padding: 8px 10px;
+            }
+
+            #notesList {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+            PlanWise
+        </div>
+
+        <div class="nav-buttons">
+            <a href="dashboard.html">Dashboard</a>
+            <button id="logoutBtn">Logout</button>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="heading">
+
+            <h1>Smart Notes 📝</h1>
+
+            <p>
+                Create, organize, and save your study notes.
+            </p>
+
+        </div>
+
+
+        <!-- Note Editor -->
+
+        <div class="notes-box">
+
+            <h2 id="editorTitle">
+                Create a Note
+            </h2>
+
+            <div class="field">
+
+                <label for="titleInput">
+                    Note Title
+                </label>
+
+                <input
+                    type="text"
+                    id="titleInput"
+                    placeholder="e.g. Maths Chapter 1"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="contentInput">
+                    Note Content
+                </label>
+
+                <textarea
+                    id="contentInput"
+                    placeholder="Write your notes here..."
+                ></textarea>
+
+            </div>
+
+
+            <button
+                class="save-btn"
+                id="saveBtn"
+            >
+                Save Note
+            </button>
+
+            <button
+                class="cancel-btn"
+                id="cancelBtn"
+            >
+                Cancel
+            </button>
+
+            <div id="message"></div>
+
+        </div>
+
+
+        <!-- Saved Notes -->
+
+        <div class="notes-section">
+
+            <h2>My Notes</h2>
+
+            <div id="notesList">
+
+                <div class="empty">
+                    Loading notes...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+        import {
+            getDatabase,
+            ref,
+            push,
+            onValue,
+            update,
+            remove
+        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+        // Firebase configuration
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
+
+            authDomain:
+                "planwise-a217c.firebaseapp.com",
+
+            projectId:
+                "planwise-a217c",
+
+            storageBucket:
+                "planwise-a217c.firebasestorage.app",
+
+            messagingSenderId:
+                "308981851844",
+
+            appId:
+                "1:308981851844:web:abafd57ff4bb8591758b91",
+
+            measurementId:
+                "G-9E3C8MFL7Z",
+
+            databaseURL:
+                "https://planwise-a217c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+        };
+
+
+        // Initialize Firebase
+
+        const app =
+            initializeApp(firebaseConfig);
+
+        const auth =
+            getAuth(app);
+
+        const db =
+            getDatabase(app);
+
+
+        // HTML elements
+
+        const titleInput =
+            document.getElementById("titleInput");
+
+        const contentInput =
+            document.getElementById("contentInput");
+
+        const saveBtn =
+            document.getElementById("saveBtn");
+
+        const cancelBtn =
+            document.getElementById("cancelBtn");
+
+        const editorTitle =
+            document.getElementById("editorTitle");
+
+        const notesList =
+            document.getElementById("notesList");
+
+        const message =
+            document.getElementById("message");
+
+        const logoutBtn =
+            document.getElementById("logoutBtn");
+
+
+        let currentUser = null;
+
+        let editingNoteId = null;
+
+
+        // Check authentication
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+                currentUser = user;
+
+                loadNotes(user.uid);
+
+            }
+        );
+
+
+        // Save or update note
+
+        saveBtn.addEventListener(
+            "click",
+            async () => {
+
+                if (!currentUser) {
+                    return;
+                }
+
+
+                const title =
+                    titleInput.value.trim();
+
+                const content =
+                    contentInput.value.trim();
+
+
+                if (title === "") {
+
+                    showMessage(
+                        "Please enter a note title.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                if (content === "") {
+
+                    showMessage(
+                        "Please enter some note content.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    saveBtn.disabled = true;
+
+                    saveBtn.textContent =
+                        "Saving...";
+
+
+                    if (editingNoteId) {
+
+                        const noteRef =
+                            ref(
+                                db,
+                                `users/${currentUser.uid}/notes/${editingNoteId}`
+                            );
+
+
+                        await update(
+                            noteRef,
+                            {
+                                title: title,
+                                content: content,
+                                updatedAt: Date.now()
+                            }
+                        );
+
+
+                        showMessage(
+                            "Note updated successfully!",
+                            true
+                        );
+
+
+                    } else {
+
+                        const notesRef =
+                            ref(
+                                db,
+                                `users/${currentUser.uid}/notes`
+                            );
+
+
+                        await push(
+                            notesRef,
+                            {
+                                title: title,
+                                content: content,
+                                createdAt: Date.now()
+                            }
+                        );
+
+
+                        showMessage(
+                            "Note saved successfully!",
+                            true
+                        );
+
+                    }
+
+
+                    clearEditor();
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    showMessage(
+                        "Could not save note: " +
+                        error.message,
+                        false
+                    );
+
+                }
+
+
+                saveBtn.disabled = false;
+
+                saveBtn.textContent =
+                    "Save Note";
+
+            }
+        );
+
+
+        // Load notes
+
+        function loadNotes(uid) {
+
+            const notesRef =
+                ref(
+                    db,
+                    `users/${uid}/notes`
+                );
+
+
+            onValue(
+                notesRef,
+                (snapshot) => {
+
+                    notesList.innerHTML = "";
+
+
+                    if (!snapshot.exists()) {
+
+                        notesList.innerHTML = `
+                            <div class="empty">
+                                No notes yet. Create your first note! 📝
+                            </div>
+                        `;
+
+                        return;
+
+                    }
+
+
+                    const notes = [];
+
+
+                    snapshot.forEach(
+                        (childSnapshot) => {
+
+                            notes.push({
+
+                                id: childSnapshot.key,
+
+                                ...childSnapshot.val()
+
+                            });
+
+                        }
+                    );
+
+
+                    // Newest notes first
+
+                    notes.sort(
+                        (a, b) =>
+                            (b.createdAt || 0) -
+                            (a.createdAt || 0)
+                    );
+
+
+                    notes.forEach(
+                        (note) => {
+
+                            createNoteCard(note);
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+
+        // Create note card
+
+        function createNoteCard(note) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "note-card";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "note-title";
+
+            title.textContent =
+                note.title;
+
+
+            const date =
+                document.createElement("div");
+
+            date.className =
+                "note-date";
+
+
+            if (note.updatedAt) {
+
+                date.textContent =
+                    "Updated " +
+                    formatDate(note.updatedAt);
+
+            } else {
+
+                date.textContent =
+                    "Created " +
+                    formatDate(note.createdAt);
+
+            }
+
+
+            const content =
+                document.createElement("div");
+
+            content.className =
+                "note-content";
+
+            content.textContent =
+                note.content;
+
+
+            const buttons =
+                document.createElement("div");
+
+            buttons.className =
+                "note-buttons";
+
+
+            const editBtn =
+                document.createElement("button");
+
+            editBtn.className =
+                "edit-btn";
+
+            editBtn.textContent =
+                "Edit";
+
+
+            editBtn.addEventListener(
+                "click",
+                () => {
+
+                    editingNoteId =
+                        note.id;
+
+                    titleInput.value =
+                        note.title;
+
+                    contentInput.value =
+                        note.content;
+
+                    editorTitle.textContent =
+                        "Edit Note";
+
+                    saveBtn.textContent =
+                        "Update Note";
+
+                    cancelBtn.style.display =
+                        "inline-block";
+
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+                }
+            );
+
+
+            const deleteBtn =
+                document.createElement("button");
+
+            deleteBtn.className =
+                "delete-btn";
+
+            deleteBtn.textContent =
+                "Delete";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                async () => {
+
+                    if (
+                        !confirm(
+                            "Delete this note?"
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    try {
+
+                        const noteRef =
+                            ref(
+                                db,
+                                `users/${currentUser.uid}/notes/${note.id}`
+                            );
+
+
+                        await remove(noteRef);
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        alert(
+                            "Could not delete note: " +
+                            error.message
+                        );
+
+                    }
+
+                }
+            );
+
+
+            buttons.appendChild(
+                editBtn
+            );
+
+            buttons.appendChild(
+                deleteBtn
+            );
+
+
+            card.appendChild(title);
+
+            card.appendChild(date);
+
+            card.appendChild(content);
+
+            card.appendChild(buttons);
+
+
+            notesList.appendChild(card);
+
+        }
+
+
+        // Cancel editing
+
+        cancelBtn.addEventListener(
+            "click",
+            () => {
+
+                clearEditor();
+
+            }
+        );
+
+
+        // Clear editor
+
+        function clearEditor() {
+
+            titleInput.value = "";
+
+            contentInput.value = "";
+
+            editingNoteId = null;
+
+            editorTitle.textContent =
+                "Create a Note";
+
+            saveBtn.textContent =
+                "Save Note";
+
+            cancelBtn.style.display =
+                "none";
+
+        }
+
+
+        // Format date
+
+        function formatDate(timestamp) {
+
+            if (!timestamp) {
+                return "";
+            }
+
+
+            const date =
+                new Date(timestamp);
+
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        // Show message
+
+        function showMessage(
+            text,
+            success
+        ) {
+
+            message.textContent =
+                text;
+
+            message.style.color =
+                success
+                    ? "#16a34a"
+                    : "#dc2626";
+
+
+            setTimeout(
+                () => {
+
+                    message.textContent = "";
+
+                },
+                2500
+            );
+
+        }
+
+
+        // Logout
+
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                        "index.html";
+
+                } catch (error) {
+
+                    console.error(error);
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
