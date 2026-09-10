@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>PlanWise - Sign Up</title>
 
     <style>
@@ -15,48 +13,45 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #5b5cf0, #7c3aed);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
-        .box {
+        .signup-container {
             background: white;
-            width: 100%;
-            max-width: 400px;
-            padding: 35px;
+            width: 90%;
+            max-width: 420px;
+            padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .logo {
+        h1 {
             text-align: center;
-            color: #5b5cf0;
-            font-size: 30px;
-            font-weight: bold;
+            color: #667eea;
             margin-bottom: 10px;
         }
 
-        h2 {
+        .subtitle {
             text-align: center;
-            color: #172033;
-            margin-bottom: 25px;
+            color: #777;
+            margin-bottom: 30px;
         }
 
         label {
             display: block;
             margin-top: 15px;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
             font-weight: bold;
             color: #333;
         }
 
         input {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             border: 1px solid #ddd;
             border-radius: 10px;
             font-size: 15px;
@@ -64,16 +59,16 @@
 
         input:focus {
             outline: none;
-            border-color: #5b5cf0;
+            border-color: #667eea;
         }
 
         button {
             width: 100%;
-            padding: 15px;
             margin-top: 25px;
+            padding: 14px;
             border: none;
             border-radius: 10px;
-            background: #5b5cf0;
+            background: #667eea;
             color: white;
             font-size: 16px;
             font-weight: bold;
@@ -81,48 +76,48 @@
         }
 
         button:hover {
-            background: #4849d8;
+            background: #5568d9;
+        }
+
+        button:disabled {
+            background: #aaa;
+            cursor: not-allowed;
         }
 
         #message {
             text-align: center;
             margin-top: 15px;
-            min-height: 20px;
-        }
-
-        .login {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-
-        .login a {
-            color: #5b5cf0;
             font-weight: bold;
-            text-decoration: none;
         }
 
-        .back {
-            display: block;
+        .login-link {
             text-align: center;
             margin-top: 20px;
-            color: #777;
+        }
+
+        .login-link a,
+        .back-link a {
+            color: #667eea;
             text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
         }
     </style>
-
 </head>
 
 <body>
 
-<div class="box">
+<div class="signup-container">
 
-    <div class="logo">PlanWise</div>
+    <h1>PlanWise</h1>
 
-    <h2>Create your account</h2>
+    <p class="subtitle">Create your account</p>
 
     <label for="name">Name</label>
-
     <input
         type="text"
         id="name"
@@ -130,7 +125,6 @@
     >
 
     <label for="email">Email</label>
-
     <input
         type="email"
         id="email"
@@ -138,30 +132,175 @@
     >
 
     <label for="password">Password</label>
-
     <input
         type="password"
         id="password"
         placeholder="Create a password"
     >
 
-    <button id="signupBtn">
-        Create Account
-    </button>
+    <button id="signupBtn">Create Account</button>
 
     <p id="message"></p>
 
-    <div class="login">
+    <div class="login-link">
         Already have an account?
         <a href="login.html">Login</a>
     </div>
 
-    <a class="back" href="index.html">
-        ← Back to PlanWise
-    </a>
+    <div class="back-link">
+        <a href="index.html">← Back to Home</a>
+    </div>
 
 </div>
 
-</body>
 
+<!-- Firebase -->
+<script type="module">
+
+    import { initializeApp } from
+        "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+    import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        updateProfile
+    } from
+        "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+    import {
+        getFirestore,
+        doc,
+        setDoc
+    } from
+        "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
+        authDomain: "planwise-a217c.firebaseapp.com",
+        projectId: "planwise-a217c",
+        storageBucket: "planwise-a217c.firebasestorage.app",
+        messagingSenderId: "308981851844",
+        appId: "1:308981851844:web:abafd57ff4bb8591758b91",
+        measurementId: "G-9E3C8MFL7Z"
+    };
+
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // Firebase Authentication
+    const auth = getAuth(app);
+
+    // Firestore Database
+    const db = getFirestore(app);
+
+
+    // Get HTML elements
+    const signupBtn = document.getElementById("signupBtn");
+    const message = document.getElementById("message");
+
+
+    signupBtn.addEventListener("click", async () => {
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+
+        // Check fields
+        if (!name || !email || !password) {
+            message.textContent = "Please fill in all fields.";
+            message.style.color = "red";
+            return;
+        }
+
+
+        // Password check
+        if (password.length < 6) {
+            message.textContent =
+                "Password must be at least 6 characters.";
+            message.style.color = "red";
+            return;
+        }
+
+
+        signupBtn.disabled = true;
+        signupBtn.textContent = "Creating Account...";
+
+
+        try {
+
+            // Create Firebase Authentication account
+            const userCredential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            const user = userCredential.user;
+
+
+            // Add name to Firebase Authentication profile
+            await updateProfile(user, {
+                displayName: name
+            });
+
+
+            // Save additional user information in Firestore
+            await setDoc(doc(db, "users", user.uid), {
+                name: name,
+                email: email,
+                uid: user.uid,
+                createdAt: new Date()
+            });
+
+
+            message.textContent =
+                "Account created successfully!";
+
+            message.style.color = "green";
+
+
+            // Go to dashboard
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 1000);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            let errorMessage = "Something went wrong.";
+
+            if (error.code === "auth/email-already-in-use") {
+                errorMessage =
+                    "This email is already registered.";
+            }
+
+            else if (error.code === "auth/invalid-email") {
+                errorMessage =
+                    "Please enter a valid email address.";
+            }
+
+            else if (error.code === "auth/weak-password") {
+                errorMessage =
+                    "Password is too weak.";
+            }
+
+            message.textContent = errorMessage;
+            message.style.color = "red";
+
+            signupBtn.disabled = false;
+            signupBtn.textContent = "Create Account";
+        }
+
+    });
+
+</script>
+
+</body>
 </html>
