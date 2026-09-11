@@ -2,250 +2,216 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PlanWise</title>
+<meta charset="UTF-8">
 
-    <style>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<title>PlanWise — Plan. Focus. Win.</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7ff;
-            color: #172033;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 8%;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-            color: #5b5cf0;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            margin-left: 25px;
-        }
-
-        .hero {
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .hero-content {
-            max-width: 700px;
-        }
-
-        h1 {
-            font-size: 56px;
-            margin-bottom: 20px;
-        }
-
-        .hero h1 span {
-            color: #5b5cf0;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 14px 28px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .primary {
-            background: #5b5cf0;
-            color: white;
-        }
-
-        .secondary {
-            background: white;
-            color: #5b5cf0;
-            border: 2px solid #5b5cf0;
-        }
-
-        .features {
-            padding: 60px 8%;
-            background: white;
-            text-align: center;
-        }
-
-        .features h2 {
-            font-size: 35px;
-            margin-bottom: 40px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            padding: 30px 20px;
-            background: #f5f7ff;
-            border-radius: 15px;
-        }
-
-        .card .icon {
-            font-size: 35px;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            background: #172033;
-            color: white;
-        }
-
-        @media (max-width: 600px) {
-
-            h1 {
-                font-size: 40px;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
-        }
-
-    </style>
+<link
+rel="stylesheet"
+href="style.css">
 
 </head>
 
 <body>
 
-<header>
+<div class="particles">
 
-    <div class="logo">
-        PlanWise
-    </div>
+<span class="particle"
+style="left:10%;animation-duration:12s"></span>
 
-    <nav>
+<span class="particle"
+style="left:20%;animation-duration:18s"></span>
 
-        <a href="login.html">
-            Login
-        </a>
+<span class="particle"
+style="left:30%;animation-duration:15s"></span>
 
-        <a href="signup.html">
-            Sign Up
-        </a>
+<span class="particle"
+style="left:45%;animation-duration:20s"></span>
 
-    </nav>
+<span class="particle"
+style="left:60%;animation-duration:13s"></span>
 
-</header>
+<span class="particle"
+style="left:75%;animation-duration:17s"></span>
 
+<span class="particle"
+style="left:90%;animation-duration:14s"></span>
+
+</div>
+
+<nav class="navbar">
+
+<div class="logo">
+📘 PlanWise
+</div>
+
+<div class="nav-actions">
+
+<a
+href="login.html"
+class="btn">
+Login
+</a>
+
+<a
+href="signup.html"
+class="btn btn-primary">
+Get Started
+</a>
+
+</div>
+
+</nav>
+
+<main class="container">
 
 <section class="hero">
 
-    <div class="hero-content">
+<div class="hero-content">
 
-        <h1>
-            Plan your day.<br>
-            <span>Achieve your goals.</span>
-        </h1>
+<p>
+✨ YOUR NEW STUDENT SUPERPOWER
+</p>
 
-        <p>
-            PlanWise is your all-in-one student productivity
-            platform for planning, studying, tracking and growing.
-        </p>
+<h1>
 
-        <div class="buttons">
+Plan your life.
 
-            <a href="signup.html" class="btn primary">
-                Get Started
-            </a>
+<br>
 
-            <a href="login.html" class="btn secondary">
-                Login
-            </a>
+<span class="gradient-text">
+Win your day.
+</span>
 
-        </div>
+</h1>
 
-    </div>
+<p>
 
-</section>
+PlanWise brings your tasks, syllabus,
+notes, habits, budget, journal and
+study groups into one ridiculously
+beautiful workspace.
 
+</p>
 
-<section class="features">
+<br>
 
-    <h2>
-        Everything you need
-    </h2>
+<a
+href="signup.html"
+class="btn btn-primary">
 
-    <div class="cards">
+🚀 Start Planning
 
-        <div class="card">
-            <div class="icon">📅</div>
-            <h3>Daily Planner</h3>
-        </div>
+</a>
 
-        <div class="card">
-            <div class="icon">📚</div>
-            <h3>Syllabus Tracker</h3>
-        </div>
+</div>
 
-        <div class="card">
-            <div class="icon">📝</div>
-            <h3>Smart Notes</h3>
-        </div>
+<div class="hero-mascot">
 
-        <div class="card">
-            <div class="icon">📊</div>
-            <h3>Day Tracker</h3>
-        </div>
+🧑‍🚀
 
-        <div class="card">
-            <div class="icon">💰</div>
-            <h3>Budget Tracker</h3>
-        </div>
-
-        <div class="card">
-            <div class="icon">📖</div>
-            <h3>Digital Journal</h3>
-        </div>
-
-    </div>
+</div>
 
 </section>
 
+<div class="dashboard-grid">
+
+<div class="feature-card"
+style="--card-glow:#7c3aed">
+
+<div class="feature-icon">
+📅
+</div>
+
+<h2>Daily Planner</h2>
+
+<p>
+Turn chaotic days into organized missions.
+</p>
+
+</div>
+
+<div class="feature-card"
+style="--card-glow:#06b6d4">
+
+<div class="feature-icon">
+📚
+</div>
+
+<h2>Syllabus Tracker</h2>
+
+<p>
+Watch your syllabus disappear topic by topic.
+</p>
+
+</div>
+
+<div class="feature-card"
+style="--card-glow:#ec4899">
+
+<div class="feature-icon">
+📝
+</div>
+
+<h2>Smart Notes</h2>
+
+<p>
+Build your own searchable knowledge vault.
+</p>
+
+</div>
+
+<div class="feature-card"
+style="--card-glow:#22c55e">
+
+<div class="feature-icon">
+🎯
+</div>
+
+<h2>Day Tracker</h2>
+
+<p>
+Turn habits into streaks.
+</p>
+
+</div>
+
+</div>
+
+<section class="coming-soon">
+
+<h2 class="coming-title">
+🚀 And we're just getting started...
+</h2>
+
+<br>
+
+<p>
+
+🤖 AI Study Assistant
+&nbsp; • &nbsp;
+🌍 Language Learning
+&nbsp; • &nbsp;
+📈 Analytics
+&nbsp; • &nbsp;
+🎯 Goals
+&nbsp; • &nbsp;
+🔔 Smart Notifications
+
+</p>
+
+</section>
+
+</main>
 
 <footer>
 
-    © 2026 PlanWise. Built for students.
+© 2026 PlanWise — Plan better. Achieve more.
 
 </footer>
 
