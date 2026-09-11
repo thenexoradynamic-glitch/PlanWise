@@ -1,750 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Daily Planner - PlanWise</title>
+<meta charset="UTF-8">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            color: #222;
-        }
+<title>Daily Planner — PlanWise</title>
 
-        nav {
-            background: #ffffff;
-            padding: 18px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+<link
+rel="stylesheet"
+href="style.css">
 
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-            color: #4f46e5;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .nav-buttons a,
-        .nav-buttons button {
-            text-decoration: none;
-            border: none;
-            background: #4f46e5;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .nav-buttons a {
-            background: #eef0ff;
-            color: #4f46e5;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .heading {
-            margin-bottom: 25px;
-        }
-
-        .heading h1 {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-
-        .heading p {
-            color: #666;
-        }
-
-        .planner-box {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-        }
-
-        .planner-box h2 {
-            margin-bottom: 20px;
-        }
-
-        .form {
-            display: grid;
-            grid-template-columns: 1fr 170px 140px auto;
-            gap: 12px;
-            align-items: end;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .field label {
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .field input {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        .add-btn {
-            padding: 12px 18px;
-            background: #4f46e5;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            height: 44px;
-        }
-
-        .add-btn:hover {
-            background: #4338ca;
-        }
-
-        #message {
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .tasks-section h2 {
-            margin-bottom: 15px;
-        }
-
-        #tasksList {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .task-card {
-            background: white;
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .task-card input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .task-content {
-            flex: 1;
-        }
-
-        .task-title {
-            font-size: 17px;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
-
-        .task-details {
-            font-size: 13px;
-            color: #777;
-        }
-
-        .completed .task-title {
-            text-decoration: line-through;
-            color: #999;
-        }
-
-        .delete-btn {
-            background: #fee2e2;
-            color: #dc2626;
-            border: none;
-            padding: 9px 12px;
-            border-radius: 7px;
-            cursor: pointer;
-        }
-
-        .delete-btn:hover {
-            background: #fecaca;
-        }
-
-        .empty {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            color: #777;
-        }
-
-        @media (max-width: 750px) {
-            .form {
-                grid-template-columns: 1fr;
-            }
-
-            .add-btn {
-                width: 100%;
-            }
-
-            nav {
-                padding: 15px 20px;
-            }
-
-            .nav-buttons {
-                gap: 5px;
-            }
-
-            .nav-buttons a,
-            .nav-buttons button {
-                padding: 8px 10px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <nav>
-        <div class="logo">PlanWise</div>
+<nav class="navbar">
 
-        <div class="nav-buttons">
-            <a href="dashboard.html">Dashboard</a>
-            <button id="logoutBtn">Logout</button>
-        </div>
-    </nav>
+<div class="logo">
+📘 PlanWise
+</div>
 
-    <div class="container">
+<a
+href="dashboard.html"
+class="btn">
 
-        <div class="heading">
-            <h1>Daily Planner 📅</h1>
-            <p>Organize your tasks and make every day productive.</p>
-        </div>
+← Dashboard
 
-        <div class="planner-box">
+</a>
 
-            <h2>Add a Task</h2>
+</nav>
 
-            <div class="form">
+<main class="container">
 
-                <div class="field">
-                    <label for="taskInput">Task</label>
-                    <input
-                        type="text"
-                        id="taskInput"
-                        placeholder="e.g. Complete Maths homework"
-                    >
-                </div>
+<section class="hero">
 
-                <div class="field">
-                    <label for="dateInput">Date</label>
-                    <input type="date" id="dateInput">
-                </div>
+<div class="hero-content">
 
-                <div class="field">
-                    <label for="timeInput">Time</label>
-                    <input type="time" id="timeInput">
-                </div>
+<h1>
+📅 Mission Control
+</h1>
 
-                <button class="add-btn" id="addTaskBtn">
-                    Add Task
-                </button>
+<p>
+Today's mission: get things done without
+turning your brain into spaghetti.
+</p>
 
-            </div>
+</div>
 
-            <div id="message"></div>
+<div class="hero-mascot">
+🚀
+</div>
 
-        </div>
+</section>
 
-        <div class="tasks-section">
+<br>
 
-            <h2>My Tasks</h2>
+<div class="glass-panel">
 
-            <div id="tasksList">
-                <div class="empty">
-                    Loading tasks...
-                </div>
-            </div>
+<h2>
+➕ Add Mission
+</h2>
 
-        </div>
+<br>
 
-    </div>
+<input
+id="taskTitle"
+placeholder="What needs to be done?">
 
+<select id="priority">
 
-    <script type="module">
+<option value="low">
+🟢 Low Priority
+</option>
 
-        import { initializeApp }
-            from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+<option value="medium">
+🟡 Medium Priority
+</option>
 
-        import {
-            getAuth,
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+<option value="high">
+🔴 High Priority
+</option>
 
-        import {
-            getDatabase,
-            ref,
-            push,
-            onValue,
-            update,
-            remove
-        } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+</select>
 
+<input
+id="taskTime"
+type="time">
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
-            authDomain: "planwise-a217c.firebaseapp.com",
-            projectId: "planwise-a217c",
-            storageBucket: "planwise-a217c.firebasestorage.app",
-            messagingSenderId: "308981851844",
-            appId: "1:308981851844:web:abafd57ff4bb8591758b91",
-            measurementId: "G-9E3C8MFL7Z",
+<button
+id="addTask"
+class="btn btn-primary">
 
-            databaseURL:
-                "https://planwise-a217c-default-rtdb.asia-southeast1.firebasedatabase.app"
-        };
+🚀 Add Mission
 
+</button>
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
+</div>
 
-        const auth = getAuth(app);
+<section
+style="margin-top:35px">
 
-        const db = getDatabase(app);
+<h2>
+🔥 Today's Missions
+</h2>
 
+<div id="taskList"></div>
 
-        // HTML elements
-        const taskInput = document.getElementById("taskInput");
-        const dateInput = document.getElementById("dateInput");
-        const timeInput = document.getElementById("timeInput");
-        const addTaskBtn = document.getElementById("addTaskBtn");
-        const tasksList = document.getElementById("tasksList");
-        const message = document.getElementById("message");
-        const logoutBtn = document.getElementById("logoutBtn");
+</section>
 
+</main>
 
-        // Set today's date automatically
-        const today = new Date();
+<script type="module">
 
-        const year = today.getFullYear();
+import {
+auth,
+db
+} from "./firebase.js";
+
+import {
+onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+import {
+collection,
+addDoc,
+query,
+where,
+orderBy,
+onSnapshot,
+deleteDoc,
+doc,
+updateDoc,
+serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+import {
+protectPage
+} from "./auth.js";
+
+protectPage();
+
+let user;
+
+onAuthStateChanged(
+auth,
+u => {
+
+if (!u) return;
+
+user = u;
+
+loadTasks();
+
+});
+
+document
+.getElementById("addTask")
+.addEventListener(
+"click",
+async () => {
+
+const title =
+document
+.getElementById("taskTitle")
+.value.trim();
+
+const priority =
+document
+.getElementById("priority")
+.value;
+
+const time =
+document
+.getElementById("taskTime")
+.value;
+
+if (!title) {
+
+alert("Give your mission a name!");
+
+return;
+
+}
+
+await addDoc(
+collection(db,"tasks"),
+{
+uid:user.uid,
+title,
+priority,
+time,
+completed:false,
+createdAt:
+serverTimestamp()
+}
+);
+
+document
+.getElementById("taskTitle")
+.value="";
 
-        const month = String(today.getMonth() + 1).padStart(2, "0");
+});
 
-        const day = String(today.getDate()).padStart(2, "0");
+function loadTasks() {
 
-        dateInput.value = `${year}-${month}-${day}`;
+const q =
+query(
+collection(db,"tasks"),
+where(
+"uid",
+"==",
+user.uid
+),
+orderBy(
+"createdAt",
+"desc"
+)
+);
 
+onSnapshot(q,
+snapshot => {
 
-        let currentUser = null;
+const list =
+document
+.getElementById(
+"taskList"
+);
 
+list.innerHTML="";
 
-        // Check login status
-        onAuthStateChanged(auth, (user) => {
+snapshot.forEach(
+item => {
 
-            if (!user) {
+const data =
+item.data();
 
-                window.location.href = "login.html";
+const div =
+document
+.createElement(
+"div"
+);
 
-                return;
-            }
+div.className="item";
 
-            currentUser = user;
+div.innerHTML=`
 
-            loadTasks(user.uid);
-        });
+<div
+style="
+display:flex;
+justify-content:space-between;
+gap:15px;
+align-items:center">
 
+<div>
 
-        // Add task
-        addTaskBtn.addEventListener("click", async () => {
+<h3>
+${data.completed
+? "✅"
+: "⬜"}
+${data.title}
+</h3>
 
-            if (!currentUser) {
-                return;
-            }
+<p
+style="
+color:var(--muted)">
 
+${data.time || ""}
+&nbsp;
 
-            const task = taskInput.value.trim();
+${data.priority === "high"
+? "🔴 High"
+: data.priority === "medium"
+? "🟡 Medium"
+: "🟢 Low"}
 
-            const date = dateInput.value;
+</p>
 
-            const time = timeInput.value;
+</div>
 
+<div>
 
-            if (task === "") {
+<button
+class="btn btn-primary complete-btn"
+data-id="${item.id}">
 
-                message.textContent = "Please enter a task.";
+${data.completed
+? "Undo"
+: "Done"}
 
-                message.style.color = "#dc2626";
+</button>
 
-                return;
-            }
+<button
+class="btn delete-btn"
+data-id="${item.id}"
+style="background:#ef4444">
 
+🗑️
 
-            if (date === "") {
+</button>
 
-                message.textContent = "Please select a date.";
+</div>
 
-                message.style.color = "#dc2626";
+</div>
 
-                return;
-            }
+`;
 
+list.appendChild(div);
 
-            try {
+});
 
-                addTaskBtn.disabled = true;
+document
+.querySelectorAll(".complete-btn")
+.forEach(btn => {
 
-                addTaskBtn.textContent = "Adding...";
+btn.onclick =
+async () => {
 
+const id =
+btn.dataset.id;
 
-                // Every user gets their own task folder
-                const tasksRef = ref(
-                    db,
-                    `users/${currentUser.uid}/tasks`
-                );
+const snap =
+snapshot.docs
+.find(
+d => d.id === id
+);
 
+await updateDoc(
+doc(
+db,
+"tasks",
+id
+),
+{
+completed:
+!snap.data()
+.completed
+}
+);
 
-                await push(tasksRef, {
+};
 
-                    title: task,
+});
 
-                    date: date,
+document
+.querySelectorAll(".delete-btn")
+.forEach(btn => {
 
-                    time: time,
+btn.onclick =
+async () => {
 
-                    completed: false,
+await deleteDoc(
+doc(
+db,
+"tasks",
+btn.dataset.id
+)
+);
 
-                    createdAt: Date.now()
+};
 
-                });
+});
 
+});
 
-                taskInput.value = "";
+}
 
-                timeInput.value = "";
-
-
-                message.textContent = "Task added successfully!";
-
-                message.style.color = "#16a34a";
-
-
-                setTimeout(() => {
-
-                    message.textContent = "";
-
-                }, 2000);
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                message.textContent =
-                    "Could not add task: " + error.message;
-
-                message.style.color = "#dc2626";
-
-            }
-
-
-            addTaskBtn.disabled = false;
-
-            addTaskBtn.textContent = "Add Task";
-
-        });
-
-
-        // Load tasks from Firebase
-        function loadTasks(uid) {
-
-            const tasksRef = ref(
-                db,
-                `users/${uid}/tasks`
-            );
-
-
-            onValue(tasksRef, (snapshot) => {
-
-                tasksList.innerHTML = "";
-
-
-                if (!snapshot.exists()) {
-
-                    tasksList.innerHTML = `
-                        <div class="empty">
-                            No tasks yet. Add your first task above! 🎯
-                        </div>
-                    `;
-
-                    return;
-                }
-
-
-                const tasks = [];
-
-
-                snapshot.forEach((childSnapshot) => {
-
-                    tasks.push({
-
-                        id: childSnapshot.key,
-
-                        ...childSnapshot.val()
-
-                    });
-
-                });
-
-
-                // Sort by date and time
-                tasks.sort((a, b) => {
-
-                    const dateA =
-                        `${a.date || ""} ${a.time || ""}`;
-
-                    const dateB =
-                        `${b.date || ""} ${b.time || ""}`;
-
-                    return dateA.localeCompare(dateB);
-
-                });
-
-
-                tasks.forEach((task) => {
-
-                    createTaskCard(task);
-
-                });
-
-            });
-        }
-
-
-        // Create task card
-        function createTaskCard(task) {
-
-            const card = document.createElement("div");
-
-            card.className =
-                "task-card" +
-                (task.completed ? " completed" : "");
-
-
-            const checkbox = document.createElement("input");
-
-            checkbox.type = "checkbox";
-
-            checkbox.checked = task.completed || false;
-
-
-            checkbox.addEventListener("change", async () => {
-
-                try {
-
-                    const taskRef = ref(
-                        db,
-                        `users/${currentUser.uid}/tasks/${task.id}`
-                    );
-
-
-                    await update(taskRef, {
-
-                        completed: checkbox.checked
-
-                    });
-
-                } catch (error) {
-
-                    console.error(error);
-
-                }
-
-            });
-
-
-            const content = document.createElement("div");
-
-            content.className = "task-content";
-
-
-            const title = document.createElement("div");
-
-            title.className = "task-title";
-
-            title.textContent = task.title;
-
-
-            const details = document.createElement("div");
-
-            details.className = "task-details";
-
-
-            let detailsText = "";
-
-            if (task.date) {
-
-                detailsText += "📅 " + formatDate(task.date);
-
-            }
-
-            if (task.time) {
-
-                detailsText += " &nbsp; ⏰ " + formatTime(task.time);
-
-            }
-
-
-            details.innerHTML = detailsText;
-
-
-            content.appendChild(title);
-
-            content.appendChild(details);
-
-
-            const deleteBtn = document.createElement("button");
-
-            deleteBtn.className = "delete-btn";
-
-            deleteBtn.textContent = "Delete";
-
-
-            deleteBtn.addEventListener("click", async () => {
-
-                const confirmed =
-                    confirm("Delete this task?");
-
-
-                if (!confirmed) {
-                    return;
-                }
-
-
-                try {
-
-                    const taskRef = ref(
-                        db,
-                        `users/${currentUser.uid}/tasks/${task.id}`
-                    );
-
-
-                    await remove(taskRef);
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    alert(
-                        "Could not delete task: " +
-                        error.message
-                    );
-
-                }
-
-            });
-
-
-            card.appendChild(checkbox);
-
-            card.appendChild(content);
-
-            card.appendChild(deleteBtn);
-
-
-            tasksList.appendChild(card);
-
-        }
-
-
-        // Format date
-        function formatDate(dateString) {
-
-            const date = new Date(
-                dateString + "T00:00:00"
-            );
-
-
-            return date.toLocaleDateString(
-                "en-IN",
-                {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric"
-                }
-            );
-
-        }
-
-
-        // Format time
-        function formatTime(timeString) {
-
-            const [hours, minutes] =
-                timeString.split(":");
-
-
-            const date = new Date();
-
-            date.setHours(
-                Number(hours),
-                Number(minutes)
-            );
-
-
-            return date.toLocaleTimeString(
-                "en-IN",
-                {
-                    hour: "numeric",
-                    minute: "2-digit"
-                }
-            );
-
-        }
-
-
-        // Logout
-        logoutBtn.addEventListener("click", async () => {
-
-            try {
-
-                await signOut(auth);
-
-                window.location.href = "index.html";
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert("Logout failed.");
-
-            }
-
-        });
-
-    </script>
+</script>
 
 </body>
+
 </html>
