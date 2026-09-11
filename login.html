@@ -3,476 +3,167 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
-    <title>PlanWise - Login</title>
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
 
-    <style>
+<title>Login — PlanWise</title>
 
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-
-            margin: 0;
-
-            font-family: Arial, sans-serif;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #667eea,
-                    #764ba2
-                );
-
-            min-height: 100vh;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-        }
-
-
-        .login-container {
-
-            background: white;
-
-            width: 90%;
-
-            max-width: 420px;
-
-            padding: 40px;
-
-            border-radius: 20px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0, 0, 0, 0.2);
-        }
-
-
-        h1 {
-
-            text-align: center;
-
-            color: #667eea;
-
-            margin-bottom: 10px;
-        }
-
-
-        .subtitle {
-
-            text-align: center;
-
-            color: #777;
-
-            margin-bottom: 30px;
-        }
-
-
-        label {
-
-            display: block;
-
-            margin-top: 15px;
-
-            margin-bottom: 7px;
-
-            font-weight: bold;
-
-            color: #333;
-        }
-
-
-        input {
-
-            width: 100%;
-
-            padding: 13px;
-
-            border:
-                1px solid #ddd;
-
-            border-radius: 10px;
-
-            font-size: 15px;
-        }
-
-
-        input:focus {
-
-            outline: none;
-
-            border-color: #667eea;
-        }
-
-
-        button {
-
-            width: 100%;
-
-            margin-top: 25px;
-
-            padding: 14px;
-
-            border: none;
-
-            border-radius: 10px;
-
-            background: #667eea;
-
-            color: white;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-
-        button:hover {
-
-            background: #5568d9;
-        }
-
-
-        button:disabled {
-
-            background: #aaa;
-
-            cursor: not-allowed;
-        }
-
-
-        #message {
-
-            text-align: center;
-
-            margin-top: 15px;
-
-            font-weight: bold;
-        }
-
-
-        .signup-link {
-
-            text-align: center;
-
-            margin-top: 20px;
-        }
-
-
-        .back-link {
-
-            text-align: center;
-
-            margin-top: 15px;
-        }
-
-
-        a {
-
-            color: #667eea;
-
-            text-decoration: none;
-
-            font-weight: bold;
-        }
-
-    </style>
+<link
+rel="stylesheet"
+href="style.css">
 
 </head>
 
-
 <body>
 
+<div class="container">
 
-<div class="login-container">
+<div
+style="
+max-width:500px;
+margin:100px auto;
+">
 
-    <h1>PlanWise</h1>
+<div class="glass-panel">
 
-    <p class="subtitle">
-        Login to your account
-    </p>
+<div
+style="
+font-size:80px;
+text-align:center;
+">
 
-
-    <label for="email">
-        Email
-    </label>
-
-    <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-    >
-
-
-    <label for="password">
-        Password
-    </label>
-
-    <input
-        type="password"
-        id="password"
-        placeholder="Enter your password"
-    >
-
-
-    <button id="loginBtn">
-        Login
-    </button>
-
-
-    <p id="message"></p>
-
-
-    <div class="signup-link">
-
-        Don't have an account?
-
-        <a href="signup.html">
-            Create Account
-        </a>
-
-    </div>
-
-
-    <div class="back-link">
-
-        <a href="index.html">
-            ← Back to Home
-        </a>
-
-    </div>
+👋
 
 </div>
 
+<h1
+style="
+font-family:'Baloo 2';
+font-size:50px;
+text-align:center;
+">
 
+Welcome back.
+
+</h1>
+
+<p
+style="
+text-align:center;
+color:var(--muted);
+margin-bottom:30px;
+">
+
+Your dashboard missed you.
+
+</p>
+
+<label>Email</label>
+
+<input
+id="email"
+type="email"
+placeholder="you@example.com">
+
+<label>Password</label>
+
+<input
+id="password"
+type="password"
+placeholder="Your password">
+
+<button
+id="loginBtn"
+class="btn btn-primary"
+style="width:100%">
+
+🚀 Enter PlanWise
+
+</button>
+
+<p
+id="message"
+style="
+text-align:center;
+margin-top:15px;
+">
+
+</p>
+
+<br>
+
+<p
+style="
+text-align:center;
+color:var(--muted);
+">
+
+New here?
+
+<a
+href="signup.html"
+style="color:#c4b5fd">
+
+Create an account
+
+</a>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 <script type="module">
 
+import {
+auth
+} from "./firebase.js";
 
-    import { initializeApp }
+import {
+signInWithEmailAndPassword
+} from
+"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-    from
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+document
+.getElementById("loginBtn")
+.addEventListener("click", async () => {
 
+const email =
+document.getElementById("email").value.trim();
 
-    import {
+const password =
+document.getElementById("password").value;
 
-        getAuth,
+const message =
+document.getElementById("message");
 
-        signInWithEmailAndPassword
+try {
 
-    }
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-    from
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+window.location.href =
+"dashboard.html";
 
+} catch(error) {
 
+message.textContent =
+"❌ " + error.message;
 
-    const firebaseConfig = {
+}
 
-        apiKey:
-            "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
-
-        authDomain:
-            "planwise-a217c.firebaseapp.com",
-
-        projectId:
-            "planwise-a217c",
-
-        storageBucket:
-            "planwise-a217c.firebasestorage.app",
-
-        messagingSenderId:
-            "308981851844",
-
-        appId:
-            "1:308981851844:web:abafd57ff4bb8591758b91",
-
-        measurementId:
-            "G-9E3C8MFL7Z"
-
-    };
-
-
-
-    const app =
-        initializeApp(firebaseConfig);
-
-
-    const auth =
-        getAuth(app);
-
-
-
-    const loginBtn =
-        document.getElementById("loginBtn");
-
-
-    const message =
-        document.getElementById("message");
-
-
-
-    loginBtn.addEventListener(
-        "click",
-        async () => {
-
-
-            const email =
-                document
-                .getElementById("email")
-                .value
-                .trim();
-
-
-            const password =
-                document
-                .getElementById("password")
-                .value;
-
-
-
-            if (!email || !password) {
-
-                message.textContent =
-                    "Please enter your email and password.";
-
-                message.style.color =
-                    "red";
-
-                return;
-            }
-
-
-
-            loginBtn.disabled =
-                true;
-
-
-            loginBtn.textContent =
-                "Logging in...";
-
-
-
-            try {
-
-
-                await signInWithEmailAndPassword(
-
-                    auth,
-
-                    email,
-
-                    password
-
-                );
-
-
-                message.textContent =
-                    "Login successful!";
-
-                message.style.color =
-                    "green";
-
-
-
-                setTimeout(() => {
-
-                    window.location.href =
-                        "dashboard.html";
-
-                }, 700);
-
-
-
-            }
-
-            catch (error) {
-
-
-                console.error(error);
-
-
-                let errorMessage =
-                    "Login failed.";
-
-
-
-                if (
-                    error.code ===
-                    "auth/invalid-credential"
-                ) {
-
-                    errorMessage =
-                        "Incorrect email or password.";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/user-not-found"
-                ) {
-
-                    errorMessage =
-                        "No account found with this email.";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/wrong-password"
-                ) {
-
-                    errorMessage =
-                        "Incorrect password.";
-
-                }
-
-
-                else if (
-                    error.code ===
-                    "auth/invalid-email"
-                ) {
-
-                    errorMessage =
-                        "Please enter a valid email.";
-
-                }
-
-
-
-                message.textContent =
-                    errorMessage;
-
-                message.style.color =
-                    "red";
-
-
-                loginBtn.disabled =
-                    false;
-
-                loginBtn.textContent =
-                    "Login";
-
-            }
-
-        }
-
-    );
+});
 
 </script>
-
 
 </body>
 
