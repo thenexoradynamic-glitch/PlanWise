@@ -1,258 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PlanWise - Sign Up</title>
+<meta charset="UTF-8">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<title>Join PlanWise</title>
 
-        .signup-container {
-            background: white;
-            width: 90%;
-            max-width: 420px;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+<link
+rel="stylesheet"
+href="style.css">
 
-        h1 {
-            text-align: center;
-            color: #667eea;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #777;
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 15px;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 25px;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: #667eea;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:disabled {
-            background: #aaa;
-        }
-
-        #message {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        .login-link,
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
 </head>
 
 <body>
 
-<div class="signup-container">
+<div class="container">
 
-    <h1>PlanWise</h1>
+<div
+style="
+max-width:520px;
+margin:70px auto;
+">
 
-    <p class="subtitle">Create your account</p>
+<div
+class="glass-panel">
 
-    <label for="name">Name</label>
-    <input type="text" id="name" placeholder="Enter your name">
+<div
+style="
+text-align:center;
+font-size:70px;
+margin-bottom:10px;
+">
 
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="Enter your email">
-
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Create a password">
-
-    <button id="signupBtn">Create Account</button>
-
-    <p id="message"></p>
-
-    <div class="login-link">
-        Already have an account?
-        <a href="login.html">Login</a>
-    </div>
-
-    <div class="back-link">
-        <a href="index.html">← Back to Home</a>
-    </div>
+🚀
 
 </div>
 
+<h1
+style="
+font-family:'Baloo 2';
+font-size:45px;
+text-align:center;
+">
+
+Welcome to
+<span class="gradient-text">
+PlanWise
+</span>
+
+</h1>
+
+<p
+style="
+text-align:center;
+color:var(--muted);
+margin-bottom:30px;
+">
+
+Your student life is about to get
+a serious upgrade.
+
+</p>
+
+<label>
+Your Name
+</label>
+
+<input
+id="name"
+placeholder="What should we call you?"
+>
+
+<label>
+Email
+</label>
+
+<input
+id="email"
+type="email"
+placeholder="you@example.com"
+>
+
+<label>
+Password
+</label>
+
+<input
+id="password"
+type="password"
+placeholder="Create a strong password"
+>
+
+<button
+id="signupBtn"
+class="btn btn-primary"
+style="width:100%">
+
+✨ Create My PlanWise
+
+</button>
+
+<p
+id="message"
+style="
+margin-top:15px;
+text-align:center;
+">
+
+</p>
+
+<br>
+
+<p
+style="
+text-align:center;
+color:var(--muted);
+">
+
+Already have an account?
+
+<a
+href="login.html"
+style="color:#c4b5fd">
+
+Login
+
+</a>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 <script type="module">
 
-    import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {
+auth,
+db
+} from "./firebase.js";
 
-    import {
-        getAuth,
-        createUserWithEmailAndPassword,
-        updateProfile
-    }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import {
+createUserWithEmailAndPassword,
+updateProfile
+} from
+"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
+import {
+doc,
+setDoc,
+serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyD_p5JbBFm303olQGWQD9NPEfD7CH9RBYg",
-        authDomain: "planwise-a217c.firebaseapp.com",
-        projectId: "planwise-a217c",
-        storageBucket: "planwise-a217c.firebasestorage.app",
-        messagingSenderId: "308981851844",
-        appId: "1:308981851844:web:abafd57ff4bb8591758b91",
-        measurementId: "G-9E3C8MFL7Z"
-    };
+document
+.getElementById("signupBtn")
+.addEventListener("click", async () => {
 
+const name =
+document.getElementById("name").value.trim();
 
-    const app = initializeApp(firebaseConfig);
+const email =
+document.getElementById("email").value.trim();
 
-    const auth = getAuth(app);
+const password =
+document.getElementById("password").value;
 
+const message =
+document.getElementById("message");
 
-    const signupBtn =
-        document.getElementById("signupBtn");
+if (!name || !email || !password) {
 
-    const message =
-        document.getElementById("message");
+message.textContent =
+"Please fill everything.";
 
+return;
 
-    signupBtn.addEventListener("click", async () => {
+}
 
-        const name =
-            document.getElementById("name").value.trim();
+if (password.length < 6) {
 
-        const email =
-            document.getElementById("email").value.trim();
+message.textContent =
+"Password must be at least 6 characters.";
 
-        const password =
-            document.getElementById("password").value;
+return;
 
+}
 
-        if (!name || !email || !password) {
+try {
 
-            message.textContent =
-                "Please fill in all fields.";
+const result =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-            message.style.color = "red";
+await updateProfile(
+result.user,
+{
+displayName:name
+}
+);
 
-            return;
-        }
+await setDoc(
+doc(
+db,
+"users",
+result.user.uid
+),
+{
+name,
+email,
+createdAt:
+serverTimestamp()
+}
+);
 
+window.location.href =
+"dashboard.html";
 
-        if (password.length < 6) {
+} catch(error) {
 
-            message.textContent =
-                "Password must be at least 6 characters.";
+message.textContent =
+error.message;
 
-            message.style.color = "red";
+}
 
-            return;
-        }
-
-
-        signupBtn.disabled = true;
-
-        signupBtn.textContent =
-            "Creating Account...";
-
-
-        try {
-
-            const userCredential =
-                await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-
-            const user =
-                userCredential.user;
-
-
-            await updateProfile(user, {
-                displayName: name
-            });
-
-
-            message.textContent =
-                "Account created successfully!";
-
-            message.style.color = "green";
-
-
-            setTimeout(() => {
-
-                window.location.href =
-                    "dashboard.html";
-
-            }, 1000);
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            message.textContent =
-                error.message;
-
-            message.style.color = "red";
-
-            signupBtn.disabled = false;
-
-            signupBtn.textContent =
-                "Create Account";
-        }
-
-    });
+});
 
 </script>
 
 </body>
+
 </html>
