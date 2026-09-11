@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Settings - PlanWise</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="logo">📘 PlanWise</div>
+
+<button class="logout-btn">Logout</button>
+
+</nav>
+
+<main class="container">
+
+<div class="hero">
+
+<h1>⚙️ Settings</h1>
+
+<p>Manage your PlanWise settings.</p>
+
+</div>
+
+<div class="form-card">
+
+<h2>Account</h2>
+
+<br>
+
+<a
+href="profile.html"
+class="open-btn">
+Profile
+</a>
+
+<br><br>
+
+<h2>Future Updates</h2>
+
+<br>
+
+<p>🌙 Dark Mode — Coming Soon</p>
+
+<p>🔔 Notifications — Coming Soon</p>
+
+<p>🔐 Advanced Security — Coming Soon</p>
+
+</div>
+
+</main>
+
+<script type="module">
+
+import {
+protectPage,
+setupLogout
+} from "./auth.js";
+
+protectPage();
+setupLogout();
+
+</script>
+
+</body>
+
+</html>
