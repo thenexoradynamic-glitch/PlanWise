@@ -1,170 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<title>Login — PlanWise</title>
-
-<link
-rel="stylesheet"
-href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlanWise - Auth Matrix</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px;">
 
-<body>
+  <div class="glass-card" style="width: 100%; max-width: 480px; padding: 40px; text-align: center; position: relative; overflow: hidden;">
+    
+    <!-- Neon Visual Element -->
+    <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: var(--accent-cyan); filter: blur(80px); opacity: 0.5;"></div>
 
-<div class="container">
+    <div class="brand-title" style="font-size: 2.2rem; justify-content: center; margin-bottom: 8px;">
+      ⚡ PlanWise
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px;">Next-Gen Student Productivity Operating System</p>
 
-<div
-style="
-max-width:500px;
-margin:100px auto;
-">
+    <!-- Google Quick Authentication Button -->
+    <button onclick="PlanWiseAuth.loginWithGoogle()" style="width: 100%; padding: 16px; background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border); border-radius: var(--radius-md); color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s ease; margin-bottom: 25px;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.3 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 10.8 0 12s.7 2.3 1.9 4.7l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.3-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"/></svg>
+      Continue with Google Account
+    </button>
 
-<div class="glass-panel">
+    <div style="display: flex; align-items: center; margin: 20px 0; color: var(--text-muted); font-size: 0.85rem;">
+      <div style="flex: 1; height: 1px; background: var(--glass-border);"></div>
+      <span style="padding: 0 10px;">OR OPERATOR ACCESS</span>
+      <div style="flex: 1; height: 1px; background: var(--glass-border);"></div>
+    </div>
 
-<div
-style="
-font-size:80px;
-text-align:center;
-">
+    <!-- Maker / Admin Passcode Input -->
+    <div style="text-align: left; margin-bottom: 20px;">
+      <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Operator Key / Passcode</label>
+      <input type="password" id="adminPass" placeholder="Enter maker passcode (admin123)" style="width: 100%; padding: 14px; margin-top: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; font-size: 0.95rem;">
+    </div>
 
-👋
+    <button onclick="PlanWiseAuth.loginAsAdmin(document.getElementById('adminPass').value)" class="btn-glow" style="width: 100%; justify-content: center;">
+      🚀 Enter Maker Console
+    </button>
 
-</div>
+    <div class="meme-badge" style="margin-top: 25px;">
+      🔥 "Padhai karlo chahe kahin se, selection hoga yahin se!"
+    </div>
+  </div>
 
-<h1
-style="
-font-family:'Baloo 2';
-font-size:50px;
-text-align:center;
-">
-
-Welcome back.
-
-</h1>
-
-<p
-style="
-text-align:center;
-color:var(--muted);
-margin-bottom:30px;
-">
-
-Your dashboard missed you.
-
-</p>
-
-<label>Email</label>
-
-<input
-id="email"
-type="email"
-placeholder="you@example.com">
-
-<label>Password</label>
-
-<input
-id="password"
-type="password"
-placeholder="Your password">
-
-<button
-id="loginBtn"
-class="btn btn-primary"
-style="width:100%">
-
-🚀 Enter PlanWise
-
-</button>
-
-<p
-id="message"
-style="
-text-align:center;
-margin-top:15px;
-">
-
-</p>
-
-<br>
-
-<p
-style="
-text-align:center;
-color:var(--muted);
-">
-
-New here?
-
-<a
-href="signup.html"
-style="color:#c4b5fd">
-
-Create an account
-
-</a>
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import {
-auth
-} from "./firebase.js";
-
-import {
-signInWithEmailAndPassword
-} from
-"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
-document
-.getElementById("loginBtn")
-.addEventListener("click", async () => {
-
-const email =
-document.getElementById("email").value.trim();
-
-const password =
-document.getElementById("password").value;
-
-const message =
-document.getElementById("message");
-
-try {
-
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-window.location.href =
-"dashboard.html";
-
-} catch(error) {
-
-message.textContent =
-"❌ " + error.message;
-
-}
-
-});
-
-</script>
-
+  <script src="auth.js"></script>
 </body>
-
 </html>
